@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Complaints | e-District Plus</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* --- CORE STYLES (Sync with Dashboard) --- */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
+body { display:flex; min-height:100vh; background:#f0f2f5; }
+
+/* Sidebar */
+.sidebar { width:260px; background:#1a3a5a; color:#fff; padding:25px 15px; position: fixed; height: 100vh; z-index: 100; }
+.sidebar h2 { text-align:center; margin-bottom:40px; font-size: 20px; color: #ecf0f1; border-bottom: 1px solid #2c527a; padding-bottom: 15px; }
+.nav-group { margin-bottom: 25px; }
+.nav-label { font-size: 11px; text-transform: uppercase; color: #8ba3b8; margin-left: 10px; margin-bottom: 10px; display: block; }
+.nav-item { padding:12px 15px; margin-bottom:5px; border-radius:8px; cursor:pointer; display: block; text-decoration: none; color: white; font-size: 14px; transition: 0.2s; }
+.nav-item:hover { background:#2c527a; }
+.active-nav { background:#2c527a; border-left: 4px solid #3498db; font-weight: 600; }
+
+/* Main Content */
+.main { flex:1; margin-left: 260px; padding:30px; }
+.header { background: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+
+/* Filter & Search Tabs */
+.filter-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+.tab { padding: 8px 20px; cursor: pointer; font-size: 14px; color: #666; font-weight: 600; border-radius: 20px; }
+.tab.active { background: #1a3a5a; color: white; }
+
+/* Complaint Cards */
+.complaint-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 6px solid #ddd; }
+.card-resolved { border-left-color: #27ae60; }
+.card-pending { border-left-color: #f1c40f; }
+
+.card-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.ticket-id { font-weight: bold; color: #1a3a5a; font-size: 14px; }
+.district-tag { background: #f0f4f8; color: #555; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+.complaint-title { font-size: 18px; font-weight: 700; color: #2c3e50; margin-bottom: 10px; }
+.complaint-desc { color: #666; font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+
+/* Timeline UI */
+.timeline { display: flex; justify-content: space-between; position: relative; margin-top: 20px; padding: 0 10px; }
+.timeline::before { content: ''; position: absolute; top: 12px; left: 20px; right: 20px; height: 2px; background: #eee; z-index: 1; }
+.step { text-align: center; position: relative; z-index: 2; width: 25%; }
+.dot { width: 24px; height: 24px; background: white; border: 2px solid #ddd; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: 0.3s; }
+.step.done .dot { background: #27ae60; border-color: #27ae60; color: white; }
+.step.current .dot { border-color: #27ae60; color: #27ae60; font-weight: bold; border-width: 3px; }
+.step-label { font-size: 11px; color: #888; font-weight: 600; }
+.step.done .step-label, .step.current .step-label { color: #333; }
+
+.action-btns { margin-top: 20px; text-align: right; border-top: 1px solid #f0f0f0; padding-top: 15px; }
+.btn-view { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid #ddd; background: white; margin-left: 10px; }
+.btn-view:hover { background: #f9f9f9; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>e-District+</h2>
+  <div class="nav-group">
+    <span class="nav-label">Main Hub</span>
+    <a href="dashboard.html" class="nav-item"><span>🏠 Dashboard</span></a>
+    <a href="user.html#awareness" class="nav-item"><span>📢 Awareness Hub</span></a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-label">Citizen Services</span>
+    <a href="#" class="nav-item"><span>🛡️ Rumour Verifier</span></a>
+    <a href="complaint.html" class="nav-item"><span>📝 Raise Complaint</span></a>
+    <a href="#" class="nav-item active-nav"><span>📋 My Complaints</span></a>
+    <a href="community.html" class="nav-item"><span>🏘️ Community Forum</span></a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="header">
+    <h3>My Grievance History</h3>
+    <button class="btn-view" style="background: #1a3a5a; color: white; border: none;" onclick="location.href='raise_complaint.html'">+ New Complaint</button>
+  </div>
+
+  <div class="filter-tabs">
+    <div class="tab active">All (3)</div>
+   
+  </div>
+
+  <div class="complaint-card card-pending">
+    <div class="card-top">
+      <span class="ticket-id">ID: DL-2025-9982</span>
+      <span class="district-tag">📍 Central North District</span>
+    </div>
+    <div class="complaint-title">Heavy Water Leakage near Main Market</div>
+    <p class="complaint-desc">The main water pipeline has burst near Gate 2. Large amount of water is being wasted since morning.</p>
+    
+    <div class="timeline">
+      <div class="step done">
+        <div class="dot">✓</div>
+        <div class="step-label">Submitted</div>
+      </div>
+      <div class="step done">
+        <div class="dot">✓</div>
+        <div class="step-label">Assigned</div>
+      </div>
+      <div class="step current">
+        <div class="dot">2</div>
+        <div class="step-label">Inspection</div>
+      </div>
+      <div class="step">
+        <div class="dot">3</div>
+        <div class="step-label">Resolved</div>
+      </div>
+    </div>
+
+    <div class="action-btns">
+      <span style="float: left; font-size: 12px; color: #e67e22; font-weight: bold;">Expected Resolution: Dec 30</span>
+      <button class="btn-view">View Logs</button>
+      <button class="btn-view">Escalate</button>
+    </div>
+  </div>
+
+  <div class="complaint-card card-resolved">
+    <div class="card-top">
+      <span class="ticket-id">ID: DL-2025-8810</span>
+      <span class="district-tag">📍 Old Delhi District</span>
+    </div>
+    <div class="complaint-title">Street Light Not Working (Pole 44)</div>
+    <p class="complaint-desc">The street light in front of house 102 has been flickering and finally stopped working.</p>
+    
+    <div class="timeline">
+      <div class="step done"><div class="dot">✓</div><div class="step-label">Submitted</div></div>
+      <div class="step done"><div class="dot">✓</div><div class="step-label">Assigned</div></div>
+      <div class="step done"><div class="dot">✓</div><div class="step-label">Fixed</div></div>
+      <div class="step done"><div class="dot">✓</div><div class="step-label">Resolved</div></div>
+    </div>
+
+    <div class="action-btns">
+      <span style="float: left; font-size: 12px; color: #27ae60; font-weight: bold;">Completed on Dec 24</span>
+      <button class="btn-view">Download Report</button>
+      <button class="btn-view" style="color: #3498db;">Re-open</button>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

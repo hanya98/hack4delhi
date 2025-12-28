@@ -204,8 +204,37 @@ function selectCat(el) {
 }
 
 function submitComplaint() {
-    alert("✅ Complaint Registered Successfully!\n\nID: DL-2025-8891\nTrack status in 'My Complaints' section.");
-    window.location.href = "my_complaints.html";
+    // 1. Capture Form Data
+    const title = document.querySelector('input[placeholder*="e.g. Garbage"]').value;
+    const dept = document.getElementById('deptField').value;
+    const zone = document.getElementById('zoneSelect').value;
+    const desc = document.querySelector('textarea').value;
+    const id = "DL-2026-" + Math.floor(Math.random() * 9000 + 1000); // Random ID
+
+    if(!title || !zone) {
+        alert("Please fill in the Subject and select a Zone.");
+        return;
+    }
+
+    // 2. Create Complaint Object
+    const newComplaint = {
+        id: id,
+        title: title,
+        dept: dept,
+        zone: zone,
+        desc: desc,
+        status: "Pending",
+        date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' })
+    };
+
+    // 3. Save to Browser Storage
+    let complaints = JSON.parse(localStorage.getItem('myComplaints')) || [];
+    complaints.unshift(newComplaint); // Add new one to top
+    localStorage.setItem('myComplaints', JSON.stringify(complaints));
+
+    alert("✅ Registered Successfully! ID: " + id);
+    window.location.href = "my_complaints.html"; // Redirect to see the result
+
 }
 </script>
 
