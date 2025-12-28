@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>e-District Plus | Citizen Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0; padding:0; box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
+body{
+  display:flex; height:100vh; background:#f4f6f9;
+}
+
+/* Sidebar */
+.sidebar{
+  width:240px; background:#1c4966; color:#fff; padding:20px;
+}
+.sidebar h2{
+  text-align:center; margin-bottom:30px;
+}
+.nav-item{
+  padding:12px; margin-bottom:10px;
+  border-radius:6px; cursor:pointer;
+}
+.nav-item:hover, .active{
+  background:#2d6a8a;
+}
+
+/* Main */
+.main{
+  flex:1; padding:20px; overflow-y:auto;
+}
+.header{
+  background:#fff; padding:15px 20px;
+  border-radius:8px; font-size:18px;
+  font-weight:600; margin-bottom:20px;
+}
+
+/* Cards */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px; margin-bottom:20px;
+}
+.card{
+  background:#fff; padding:15px;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+.card h3{ font-size:14px; color:#555; }
+.card p{ font-size:20px; margin-top:8px;
+  font-weight:bold; color:#1c4966;
+}
+
+/* Sections */
+.section{
+  display:none;
+  background:#fff; padding:20px;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  margin-bottom:20px;
+}
+.section.active{ display:block; }
+
+label{ display:block; margin-top:10px; font-size:14px; }
+input, select, textarea{
+  width:100%; padding:8px; margin-top:4px;
+  border-radius:4px; border:1px solid #ccc;
+}
+button{
+  margin-top:15px; padding:10px 16px;
+  background:#1c4966; color:#fff;
+  border:none; border-radius:6px; cursor:pointer;
+}
+button:hover{ background:#163b52; }
+
+/* Tables */
+table{ width:100%; border-collapse:collapse; margin-top:10px; }
+th,td{ padding:8px; border-bottom:1px solid #ddd; }
+th{ background:#f0f2f5; }
+
+.status{
+  padding:4px 8px; border-radius:4px;
+  font-size:12px; color:#fff;
+}
+.pending{ background:#f39c12; }
+.resolved{ background:#27ae60; }
+
+/* Rumour box */
+.rumour{
+  padding:10px; margin-bottom:10px;
+  border-left:4px solid #c0392b;
+  background:#fdecea;
+}
+.fact{
+  border-left-color:#27ae60;
+  background:#eafaf1;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>Citizen Portal</h2>
+  <div class="nav-item active" onclick="showSection('dashboard',this)">Dashboard</div>
+  <div class="nav-item" onclick="showSection('raise',this)">Raise Complaint</div>
+  <div class="nav-item" onclick="showSection('my',this)">My Complaints</div>
+  <div class="nav-item" onclick="showSection('awareness',this)">Awareness</div>
+  <div class="nav-item" onclick="showSection('feedback',this)">Feedback</div>
+</div>
+
+<!-- Main -->
+<div class="main">
+<div class="header">Welcome, Citizen</div>
+
+<!-- DASHBOARD HOME -->
+<div id="dashboard" class="section active">
+  <div class="cards">
+    <div class="card"><h3>Complaints Raised</h3><p>4</p></div>
+    <div class="card"><h3>Resolved</h3><p>3</p></div>
+    <div class="card"><h3>Pending</h3><p>1</p></div>
+    <div class="card"><h3>Trust Status</h3><p>High</p></div>
+  </div>
+
+  <div class="rumour fact">
+    ✅ Verified Update: Water supply maintenance scheduled tomorrow.
+  </div>
+</div>
+
+<!-- RAISE COMPLAINT -->
+<div id="raise" class="section">
+  <h3>Raise a Complaint</h3>
+  <label>Category</label>
+  <select>
+    <option>Water</option><option>Sanitation</option>
+    <option>Roads</option><option>Electricity</option>
+  </select>
+
+  <label>Description</label>
+  <textarea rows="3"></textarea>
+
+  <label>Ward</label>
+  <input type="text">
+
+  <button>Submit Complaint</button>
+</div>
+
+<!-- MY COMPLAINTS -->
+<div id="my" class="section">
+  <h3>My Complaints</h3>
+  <table>
+    <tr><th>ID</th><th>Category</th><th>Status</th></tr>
+    <tr><td>#1121</td><td>Water</td><td><span class="status pending">Pending</span></td></tr>
+    <tr><td>#1098</td><td>Sanitation</td><td><span class="status resolved">Resolved</span></td></tr>
+  </table>
+</div>
+
+<!-- AWARENESS -->
+<div id="awareness" class="section">
+  <h3>Rumour vs Fact</h3>
+  <div class="rumour">❌ Rumour: Scheme XYZ closed</div>
+  <div class="rumour fact">✅ Fact: Scheme active till Dec 2025</div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="feedback" class="section">
+  <h3>Feedback</h3>
+  <label>Experience</label>
+  <select>
+    <option>Very Satisfied</option>
+    <option>Satisfied</option>
+    <option>Neutral</option>
+    <option>Unsatisfied</option>
+  </select>
+  <label>Comments</label>
+  <textarea rows="2"></textarea>
+  <button>Submit Feedback</button>
+</div>
+
+</div>
+
+<script>
+function showSection(id,el){
+  document.querySelectorAll('.section')
+    .forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.nav-item')
+    .forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+
+</body>
+</html>
