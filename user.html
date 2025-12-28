@@ -2,197 +2,165 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>e-District Plus | Citizen Portal</title>
+<title>Awareness Hub | Delhi JanSetu</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-*{
-  margin:0; padding:0; box-sizing:border-box;
-  font-family:"Segoe UI",sans-serif;
-}
-body{
-  display:flex; height:100vh; background:#f4f6f9;
-}
+/* --- CORE STYLES (Kept Same) --- */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
+body { display:flex; min-height:100vh; background:#f0f2f5; }
+.sidebar { width:260px; background:#1a3a5a; color:#fff; padding:25px 15px; position: fixed; height: 100vh; z-index:100; }
+.sidebar h2 { text-align:center; margin-bottom:40px; font-size: 20px; color: #ecf0f1; }
+.nav-group { margin-bottom: 25px; }
+.nav-label { font-size: 11px; text-transform: uppercase; color: #8ba3b8; margin-left: 10px; margin-bottom: 10px; display: block; }
+.nav-item { padding:12px 15px; margin-bottom:5px; border-radius:8px; cursor:pointer; display: block; text-decoration: none; color: white; font-size: 14px; }
+.nav-item:hover, .active-nav { background:#2c527a; }
+.active-nav { border-left: 4px solid #3498db; }
+.main { flex:1; margin-left: 260px; padding:30px; }
 
-/* Sidebar */
-.sidebar{
-  width:240px; background:#1c4966; color:#fff; padding:20px;
-}
-.sidebar h2{
-  text-align:center; margin-bottom:30px;
-}
-.nav-item{
-  padding:12px; margin-bottom:10px;
-  border-radius:6px; cursor:pointer;
-}
-.nav-item:hover, .active{
-  background:#2d6a8a;
-}
+/* --- AWARENESS HUB & ACCORDION --- */
+.filter-bar { display: flex; gap: 10px; margin-bottom: 25px; }
+.btn-filter { padding: 8px 18px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 13px; transition: 0.2s; }
+.btn-filter.active { background: #1a3a5a; color: white; border-color: #1a3a5a; }
 
-/* Main */
-.main{
-  flex:1; padding:20px; overflow-y:auto;
-}
-.header{
-  background:#fff; padding:15px 20px;
-  border-radius:8px; font-size:18px;
-  font-weight:600; margin-bottom:20px;
-}
+.topic-list { display: flex; flex-direction: column; gap: 12px; }
+.topic-card { background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow: hidden; border-left: 5px solid #ddd; }
+.topic-head { padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.topic-head:hover { background: #f9f9f9; }
+.topic-head h4 { font-size: 15px; color: #2c3e50; display: flex; align-items: center; gap: 10px; }
 
-/* Cards */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px; margin-bottom:20px;
-}
-.card{
-  background:#fff; padding:15px;
-  border-radius:8px;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-}
-.card h3{ font-size:14px; color:#555; }
-.card p{ font-size:20px; margin-top:8px;
-  font-weight:bold; color:#1c4966;
-}
+.topic-body { padding: 0 25px; max-height: 0; overflow: hidden; transition: 0.3s ease-out; background: #fafafa; }
+.topic-card.open .topic-body { padding: 20px 25px; max-height: 800px; border-top: 1px solid #eee; }
+.topic-card.open { border-left-color: #3498db; }
 
-/* Sections */
-.section{
-  display:none;
-  background:#fff; padding:20px;
-  border-radius:8px;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-  margin-bottom:20px;
-}
-.section.active{ display:block; }
+.badge { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+.state-badge { background: #e3f2fd; color: #1565c0; }
+.center-badge { background: #fff3e0; color: #e65100; }
 
-label{ display:block; margin-top:10px; font-size:14px; }
-input, select, textarea{
-  width:100%; padding:8px; margin-top:4px;
-  border-radius:4px; border:1px solid #ccc;
-}
-button{
-  margin-top:15px; padding:10px 16px;
-  background:#1c4966; color:#fff;
-  border:none; border-radius:6px; cursor:pointer;
-}
-button:hover{ background:#163b52; }
-
-/* Tables */
-table{ width:100%; border-collapse:collapse; margin-top:10px; }
-th,td{ padding:8px; border-bottom:1px solid #ddd; }
-th{ background:#f0f2f5; }
-
-.status{
-  padding:4px 8px; border-radius:4px;
-  font-size:12px; color:#fff;
-}
-.pending{ background:#f39c12; }
-.resolved{ background:#27ae60; }
-
-/* Rumour box */
-.rumour{
-  padding:10px; margin-bottom:10px;
-  border-left:4px solid #c0392b;
-  background:#fdecea;
-}
-.fact{
-  border-left-color:#27ae60;
-  background:#eafaf1;
-}
+/* Data Display */
+.info-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.info-table th { text-align: left; font-size: 12px; color: #7f8c8d; padding: 8px 0; border-bottom: 1px solid #eee; }
+.info-table td { padding: 12px 0; font-size: 13px; border-bottom: 1px solid #f4f4f4; vertical-align: top; }
+.highlight-text { color: #2e7d32; font-weight: bold; }
 </style>
 </head>
-
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
-  <h2>Citizen Portal</h2>
-  <div class="nav-item active" onclick="showSection('dashboard',this)">Dashboard</div>
-  <div class="nav-item" onclick="showSection('raise',this)">Raise Complaint</div>
-  <div class="nav-item" onclick="showSection('my',this)">My Complaints</div>
-  <div class="nav-item" onclick="showSection('awareness',this)">Awareness</div>
-  <div class="nav-item" onclick="showSection('feedback',this)">Feedback</div>
+  <h2>JanSetu</h2>
+  <div class="nav-group">
+    <span class="nav-label">Main Hub</span>
+    <a href="dashboard.html" class="nav-item"><span>🏠 Dashboard</span></a>
+    <a href="user.html#awareness" class="nav-item active-nav"><span>📢 Awareness Hub</span></a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-label">Citizen Services</span>
+    <a href="rumours.html" class="nav-item"><span>🛡️ Rumour Verifier</span></a>
+    <a href="complaint.html" class="nav-item"><span>📝 Raise Complaint</span></a>
+    <a href="my_complaints.html" class="nav-item"><span>📋 My Complaints</span></a>
+    <a href="community.html" class="nav-item"><span>🏘️ Community Forum</span></a>
+
+  </div>
 </div>
 
-<!-- Main -->
 <div class="main">
-<div class="header">Welcome, Citizen</div>
-
-<!-- DASHBOARD HOME -->
-<div id="dashboard" class="section active">
-  <div class="cards">
-    <div class="card"><h3>Complaints Raised</h3><p>4</p></div>
-    <div class="card"><h3>Resolved</h3><p>3</p></div>
-    <div class="card"><h3>Pending</h3><p>1</p></div>
-    <div class="card"><h3>Trust Status</h3><p>High</p></div>
+  <div class="header" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    <h3>JanJagruk-Delhi Awareness & Initiatives</h3>
   </div>
 
-  <div class="rumour fact">
-    ✅ Verified Update: Water supply maintenance scheduled tomorrow.
+  <div class="filter-bar">
+    <button class="btn-filter active" onclick="filterData('all')">All Programs</button>
+   
   </div>
-</div>
 
-<!-- RAISE COMPLAINT -->
-<div id="raise" class="section">
-  <h3>Raise a Complaint</h3>
-  <label>Category</label>
-  <select>
-    <option>Water</option><option>Sanitation</option>
-    <option>Roads</option><option>Electricity</option>
-  </select>
+  <div class="topic-list">
 
-  <label>Description</label>
-  <textarea rows="3"></textarea>
+    <div class="topic-card center" onclick="toggleCard(this)">
+      <div class="topic-head">
+        <h4>🍱 Atal Canteens (₹5 Meal) <span class="badge center-badge"></span></h4>
+        <span>▼</span>
+      </div>
+      <div class="topic-body">
+        <p style="margin-bottom: 15px; color: #666;">Nutritious and hygienic meals provided by the government at a nominal cost of ₹5 for the needy.</p>
+        <p style="margin-bottom: 15px; color: #666;"><a href="https://www.youtube.com/shorts/3eu8nLfn7B0">Watch the announcement by Chief Minister</a></p>
+        <table class="info-table">
+          <tr><th>Key Locations</th><th>Timings</th></tr>
+          <tr><td>Shalimar Bagh (AA Block), Pitampura (GP Block)</td><td>Lunch: 11:30 AM - 2:00 PM</td></tr>
+          <tr><td>Lajpat Nagar (Nehru Nagar), Narela (Pocket 11)</td><td>Dinner: 6:30 PM - 9:00 PM</td></tr>
+          <tr><td>Bawana, Badli (Sanjay Camp), Wazirpur</td><td>Lunch: 11:30 AM - 2:00 PM</td></tr>
+        </table>
+      </div>
+    </div>
 
-  <label>Ward</label>
-  <input type="text">
+    <div class="topic-card all" onclick="toggleCard(this)">
+      <div class="topic-head">
+        <h4>🎓 Scholarships & Education Awards <span class="badge state-badge">State</span></h4>
+        <span>▼</span>
+      </div>
+      <div class="topic-body">
+        <table class="info-table">
+          <tr><th>Scheme Name</th><th>Benefit</th><th>Deadline</th></tr>
+          <tr><td><b>Mukhyamantri Vidyarthi Pratibha Yojna</b></td><td>₹5,000 - ₹10,000 p.a.</td><td>31 Mar 2026</td></tr>
+          <tr><td><b>PM YASASVI (OBC/EBC)</b></td><td>Up to ₹20,000 p.a.</td><td>31 Jan 2026</td></tr>
+          <tr><td><b>Post-Matric (SC Students)</b></td><td>Maintenance Allowance</td><td>31 Jan 2026</td></tr>
+          <tr><td><b>Dr. Ambedkar State Topper Award</b></td><td>Merit-based Cash Prize</td><td>Feb 2026</td></tr>
+        </table>
+      </div>
+    </div>
 
-  <button>Submit Complaint</button>
-</div>
+    <div class="topic-card state" onclick="toggleCard(this)">
+      <div class="topic-head">
+        <h4>🚌 DEVI Electric Bus Routes <span class="badge state-badge">Transport</span></h4>
+        <span>▼</span>
+      </div>
+      <div class="topic-body">
+        <p style="margin-bottom: 10px; color: #666;">Last-mile connectivity 7-meter EV buses connecting Metro stations and clusters.</p>
+        
+        <table class="info-table">
+          <tr><th>Route No.</th><th>Destination</th><th>Start Time</th></tr>
+          <tr><td><b>D-007</b></td><td>Nehru Place ↔ Deavli Village</td><td>05:45 AM</td></tr>
+          <tr><td><b>D-041</b></td><td>Shastri Park ↔ Seelampur Metro</td><td>06:00 AM</td></tr>
+          <tr><td><b>D-037</b></td><td>Anand Vihar ISBT ↔ Shahdara</td><td>06:15 AM</td></tr>
+          <tr><td><b>D-001</b></td><td>Nizamuddin Rly Station ↔ Sangam Vihar</td><td>05:50 AM</td></tr>
+        </table>
+      </div>
+    </div>
 
-<!-- MY COMPLAINTS -->
-<div id="my" class="section">
-  <h3>My Complaints</h3>
-  <table>
-    <tr><th>ID</th><th>Category</th><th>Status</th></tr>
-    <tr><td>#1121</td><td>Water</td><td><span class="status pending">Pending</span></td></tr>
-    <tr><td>#1098</td><td>Sanitation</td><td><span class="status resolved">Resolved</span></td></tr>
-  </table>
-</div>
+    <div class="topic-card state" onclick="toggleCard(this)">
+      <div class="topic-head">
+        <h4>🌟 More Delhi Govt Initiatives <span class="badge state-badge">Budget 2025</span></h4>
+        <span>▼</span>
+      </div>
+      <div class="topic-body">
+        <ul style="padding-left: 20px; font-size: 14px; line-height: 1.8; color: #444;">
+          <li><b>CM Shri Schools:</b> Modernizing 1,000+ government schools with smart labs.</li>
+          <li><b>Free Laptops:</b> For all students passing Class X with 75%+ marks.</li>
+          <li><b>Eco-Warriors:</b> Student-led campaign for air quality awareness.</li>
+          <li><b>10,000 Air Purifiers:</b> Installation in government school classrooms.</li>
+        </ul>
+      </div>
+    </div>
 
-<!-- AWARENESS -->
-<div id="awareness" class="section">
-  <h3>Rumour vs Fact</h3>
-  <div class="rumour">❌ Rumour: Scheme XYZ closed</div>
-  <div class="rumour fact">✅ Fact: Scheme active till Dec 2025</div>
-</div>
-
-<!-- FEEDBACK -->
-<div id="feedback" class="section">
-  <h3>Feedback</h3>
-  <label>Experience</label>
-  <select>
-    <option>Very Satisfied</option>
-    <option>Satisfied</option>
-    <option>Neutral</option>
-    <option>Unsatisfied</option>
-  </select>
-  <label>Comments</label>
-  <textarea rows="2"></textarea>
-  <button>Submit Feedback</button>
-</div>
-
+  </div>
 </div>
 
 <script>
-function showSection(id,el){
-  document.querySelectorAll('.section')
-    .forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function toggleCard(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+}
 
-  document.querySelectorAll('.nav-item')
-    .forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
+function filterData(type) {
+    document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    document.querySelectorAll('.topic-card').forEach(card => {
+        if (type === 'all' || card.classList.contains(type) || card.classList.contains('all')) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
 }
 </script>
 

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Raise Complaint | JanSetu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* --- CORE STYLES (Sync with index.html) --- */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
+body { display:flex; min-height:100vh; background:#f0f2f5; }
+
+/* Sidebar */
+.sidebar { width:260px; background:#1a3a5a; color:#fff; padding:25px 15px; position: fixed; height: 100vh; }
+.sidebar h2 { text-align:center; margin-bottom:40px; font-size: 20px; color: #ecf0f1; }
+.nav-group { margin-bottom: 25px; }
+.nav-label { font-size: 11px; text-transform: uppercase; color: #8ba3b8; margin-left: 10px; margin-bottom: 10px; display: block; }
+.nav-item { padding:12px 15px; margin-bottom:5px; border-radius:8px; cursor:pointer; display: block; text-decoration: none; color: white; font-size: 14px; }
+.nav-item:hover { background:#2c527a; }
+.active-nav { background:#2c527a; border-left: 4px solid #3498db; }
+
+/* Main Content */
+.main { flex:1; margin-left: 260px; padding:30px; }
+.header { background: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+
+/* Dashboard Cards */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+.stat-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-bottom: 3px solid #ddd; }
+.stat-card h5 { font-size: 12px; color: #7f8c8d; text-transform: uppercase; }
+.stat-card .val { font-size: 20px; font-weight: bold; margin-top: 5px; color: #1a3a5a; }
+.stat-card .time { font-size: 11px; color: #27ae60; font-weight: 600; }
+
+/* Category Picker */
+.category-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+.cat-card { background: white; padding: 20px; border-radius: 12px; border: 2px solid transparent; cursor: pointer; transition: 0.3s; text-align: center; }
+.cat-card:hover { transform: translateY(-3px); border-color: #3498db; }
+.cat-card.selected { border-color: #3498db; background: #ebf5ff; }
+.cat-card i { font-size: 24px; margin-bottom: 10px; display: block; }
+.cat-card span { font-size: 14px; font-weight: 600; color: #2c3e50; }
+
+/* Form Area */
+.form-container { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #34495e; }
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+textarea { height: 100px; resize: none; }
+
+.map-placeholder { background: #e0e7ff; height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #4338ca; font-size: 13px; border: 1px dashed #4338ca; margin-top: 10px; }
+
+.btn-submit { background: #1a3a5a; color: white; border: none; padding: 15px 40px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.3s; }
+.btn-submit:hover { background: #2c527a; letter-spacing: 1px; }
+
+/* Responsive */
+@media (max-width: 900px) { .grid-2, .category-picker, .stats-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>JanSetu</h2>
+  <div class="nav-group">
+    <span class="nav-label">Main Hub</span>
+        <a href="dashboard.html" class="nav-item"><span>🏠 Dashboard</span></a>
+    <a href="user.html#awareness" class="nav-item"><span>📢 Awareness Hub</span></a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-label">Citizen Services</span>
+    <a href="rumours.html" class="nav-item"><span>🛡️ Rumour Verifier</span></a>
+    <a href="#" class="nav-item active-nav"span>📝 Raise Complaint</span></a>
+    <a href="my_complaints.html" class="nav-item"><span>📋 My Complaints</span></a>
+    <a href="community.html" class="nav-item"><span>🏘️ Community Forum</span></a>
+
+  </div>
+</div>
+
+<div class="main">
+  <div class="header">
+    <h3>New Complaint Dashboard</h3>
+    <span style="font-size: 13px; color: #7f8c8d;">Priority: <b>Normal</b></span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" style="border-color: #3498db;">
+      <h5>MCD Sanitation</h5>
+      <div class="val">4.2/5</div>
+      <div class="time">Avg. Resolve: 48h</div>
+    </div>
+    <div class="stat-card" style="border-color: #e67e22;">
+      <h5>Delhi Jal Board</h5>
+      <div class="val">3.8/5</div>
+      <div class="time">Avg. Resolve: 72h</div>
+    </div>
+    <div class="stat-card" style="border-color: #2ecc71;">
+      <h5>Power (BSES)</h5>
+      <div class="val">4.6/5</div>
+      <div class="time">Avg. Resolve: 4h</div>
+    </div>
+    <div class="stat-card" style="border-color: #e74c3c;">
+        <h5>PWD Roads</h5>
+        <div class="val">3.1/5</div>
+        <div class="time">Avg. Resolve: 7 Days</div>
+      </div>
+  </div>
+
+  <h4 style="margin-bottom: 15px; color: #1a3a5a;">1. Select Complaint Category</h4>
+  <div class="category-picker">
+    <div class="cat-card" onclick="selectCat(this)">
+      <i>🗑️</i>
+      <span>Garbage/Sanitation</span>
+    </div>
+    <div class="cat-card" onclick="selectCat(this)">
+      <i>💧</i>
+      <span>Water/Sewerage</span>
+    </div>
+    <div class="cat-card" onclick="selectCat(this)">
+      <i>🛣️</i>
+      <span>Roads/Potholes</span>
+    </div>
+    <div class="cat-card" onclick="selectCat(this)">
+      <i>💡</i>
+      <span>Street Lights</span>
+    </div>
+    <div class="cat-card" onclick="selectCat(this)">
+      <i>🌳</i>
+      <span>Horticulture/Parks</span>
+    </div>
+    <div class="cat-card" onclick="selectCat(this)">
+      <i>🏗️</i>
+      <span>Illegal Construction</span>
+    </div>
+  </div>
+
+  <h4 style="margin-bottom: 15px; color: #1a3a5a;">2. Complaint Details</h4>
+  <div class="form-container">
+    <form id="complaintForm">
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Subject / Short Title</label>
+          <input type="text" placeholder="e.g. Garbage not collected for 3 days">
+        </div>
+        <div class="form-group">
+          <label>Department (Auto-filled)</label>
+          <input type="text" id="deptField" placeholder="Select category above" readonly style="background: #f9f9f9;">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Detailed Description</label>
+          <textarea placeholder="Provide landmark, house number, and specific issue..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Locality & Map View</label>
+          <select>
+            <option>Select Ward/Zone</option>
+              <option value="central">Central Delhi</option>
+      <option value="central_north">Central North Delhi (New)</option>
+      <option value="east">East Delhi</option>
+      <option value="new_delhi">New Delhi</option>
+      <option value="north">North Delhi</option>
+      <option value="north_east">North East Delhi</option>
+      <option value="north_west">North West Delhi</option>
+      <option value="old_delhi">Old Delhi (New)</option>
+      <option value="outer_north">Outer North Delhi (New)</option>
+      <option value="south">South Delhi</option>
+      <option value="south_east">South East Delhi</option>
+      <option value="south_west">South West Delhi</option>
+      <option value="west">West Delhi</option>
+          </select>
+          <div class="map-placeholder">
+            📍 Interactive Map Loading (GPS Enabled)
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 10px;">
+        <label>Attachments (Max 2 Photos)</label>
+        <input type="file" accept="image/*" multiple>
+        <p style="font-size: 11px; color: #999; margin-top: 5px;">* Uploading photos speeds up resolution by 40%.</p>
+      </div>
+
+      <div style="text-align: right; margin-top: 20px;">
+        <button type="button" class="btn-submit" onclick="submitComplaint()">Submit Complaint</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function selectCat(el) {
+    // UI Change
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    
+    // Auto-fill Dept
+    const category = el.querySelector('span').innerText;
+    const deptField = document.getElementById('deptField');
+    
+    if(category.includes('Garbage') || category.includes('Construction')) deptField.value = "MCD (Municipal Corp)";
+    else if(category.includes('Water')) deptField.value = "DJB (Delhi Jal Board)";
+    else if(category.includes('Roads')) deptField.value = "PWD Delhi";
+    else if(category.includes('Lights')) deptField.value = "MCD / Tata Power";
+    else deptField.value = "Concerned Dept";
+}
+
+function submitComplaint() {
+    alert("✅ Complaint Registered Successfully!\n\nID: DL-2025-8891\nTrack status in 'My Complaints' section.");
+    window.location.href = "my_complaints.html";
+}
+</script>
+
+</body>
+</html>

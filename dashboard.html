@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Citizen Dashboard | e-District Plus</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* --- CORE STYLES --- */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
+body { display:flex; min-height:100vh; background:#f0f2f5; }
+
+/* Sidebar - Styled as requested */
+.sidebar { width:260px; background:#1a3a5a; color:#fff; padding:25px 15px; position: fixed; height: 100vh; z-index: 100; }
+.sidebar h2 { text-align:center; margin-bottom:40px; font-size: 20px; color: #ecf0f1; border-bottom: 1px solid #2c527a; padding-bottom: 15px; }
+.nav-group { margin-bottom: 25px; }
+.nav-label { font-size: 11px; text-transform: uppercase; color: #8ba3b8; margin-left: 10px; margin-bottom: 10px; display: block; }
+.nav-item { padding:12px 15px; margin-bottom:5px; border-radius:8px; cursor:pointer; display: block; text-decoration: none; color: white; font-size: 14px; transition: 0.2s; }
+.nav-item:hover { background:#2c527a; }
+.active-nav { background:#2c527a; border-left: 4px solid #3498db; font-weight: 600; }
+
+/* Main Content */
+.main { flex:1; margin-left: 260px; padding:30px; }
+.header { background: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+
+/* Summary Grid */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+.stat-card { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-top: 4px solid #3498db; }
+.stat-card h5 { font-size: 11px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-card .val { font-size: 24px; font-weight: bold; margin-top: 8px; color: #1a3a5a; }
+
+/* Widgets */
+.content-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
+.card-title { font-size: 16px; font-weight: bold; color: #1a3a5a; margin-bottom: 20px; display: block; }
+
+.activity-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+.status-tag { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+.tag-green { background: #e8f5e9; color: #2e7d32; }
+.tag-orange { background: #fff3e0; color: #e65100; }
+
+/* Quick Link Tiles */
+.tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tile { background: #f8fafc; padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; border: 1px solid #e2e8f0; text-decoration: none; color: inherit; }
+.tile:hover { background: #ebf5ff; border-color: #3498db; transform: translateY(-2px); }
+.tile i { font-size: 22px; margin-bottom: 10px; display: block; }
+.tile span { font-size: 12px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>JanSetu</h2>
+  <div class="nav-group">
+    <span class="nav-label">Main Hub</span>
+        <a href="#" class="nav-item active-nav"><span>🏠 Dashboard</span></a>
+    <a href="user.html#awareness" class="nav-item"><span>📢 Awareness Hub</span></a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-label">Citizen Services</span>
+    <a href="rumours.html" class="nav-item"><span>🛡️ Rumour Verifier</span></a>
+    <a href="complaint.html" class="nav-item"><span>📝 Raise Complaint</span></a>
+    <a href="my_complaints.html" class="nav-item"><span>📋 My Complaints</span></a>
+    <a href="community.html" class="nav-item"><span>🏘️ Community Forum</span></a>
+
+  </div>
+</div>
+
+<div class="main">
+  <div class="header">
+    <div>
+      <h3 style="color: #1a3a5a;">Citizen Overview</h3>
+      <p style="font-size: 12px; color: #7f8c8d;">Status as of Dec 2025 | New District Model (13 Zones)</p>
+    </div>
+    <div style="text-align: right;">
+        <span style="font-size: 13px; color: #1a3a5a; font-weight: 600;">Welcome, User</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h5>Total Complaints</h5>
+      <div class="val">12</div>
+    </div>
+    <div class="stat-card" style="border-color: #27ae60;">
+      <h5>Resolved</h5>
+      <div class="val">09</div>
+    </div>
+    <div class="stat-card" style="border-color: #f1c40f;">
+      <h5>In Progress</h5>
+      <div class="val">03</div>
+    </div>
+    <div class="stat-card" style="border-color: #e67e22;">
+      <h5>District Nodal</h5>
+      <div class="val">Active</div>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <div class="left-col">
+      <div class="card">
+        <span class="card-title">Recent Activity Track</span>
+        <div class="activity-item">
+          <span>Sanitation Complaint - <b>Old Delhi</b></span>
+          <span class="status-tag tag-green">RESOLVED</span>
+        </div>
+        <div class="activity-item">
+          <span>Water Leakage - <b>Central North</b></span>
+          <span class="status-tag tag-orange">IN PROGRESS</span>
+        </div>
+        <div class="activity-item">
+          <span>Street Light Repair - <b>South East</b></span>
+          <span class="status-tag tag-green">RESOLVED</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-title">District Performance (Avg Resolution)</span>
+        <div style="background: #f1f5f9; height: 200px; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px dashed #cbd5e1; color: #64748b;">
+          [District Map Placeholder - Interactive Mode]
+        </div>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="card">
+        <span class="card-title">Quick Services</span>
+        <div class="tile-grid">
+          <a href="complaint.html" class="tile"><i>📝</i><span>New Complaint</span></a>
+          <a href="user.html#awareness" class="tile"><i>🍱</i><span>Atal Canteen</span></a>
+          <a href="#" class="tile"><i>📜</i><span>Community</span></a>
+          <a href="user.html#awareness" class="tile"><i>🚍</i><span>DEVI Bus</span></a>
+        </div>
+      </div>
+
+      <div class="card" style="background: #1a3a5a; color: white;">
+        <span class="card-title" style="color: #3498db;">Recent Alerts</span>
+        <p style="font-size: 13px; line-height: 1.5; opacity: 0.9;">
+         <div style="font-size: 13px; line-height: 1.6;">
+          <p>🔔 <b>Jan 1st:</b> New district boundaries take effect. Align your SDM office visits accordingly.</p>
+          <hr style="margin: 10px 0; opacity: 0.2;">
+          <p>🔔 <b>Atal Canteens:</b> 5 new locations opened in Pitampura and Shalimar Bagh by CM Rekha Gupta.</p>
+          <hr style="margin: 10px 0; opacity: 0.2;">
+          <p>🔔 <b>Scholarships:</b> Application window for ST Students 2025-26 is now open on NSP.</p>
+        </div> </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
