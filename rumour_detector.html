@@ -478,7 +478,18 @@ Based on your knowledge and the above search results, answer the user's question
             ]
         };
         
-        fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+        setTimeout(() => {
+            document.getElementById('loadingDiv').classList.remove('show');
+            let demoResponses = [
+                'Delhi has a special status as the capital of India. It is governed by the Delhi Government under the Union Territory of Delhi. The Lt. Governor is the constitutional head while the Chief Minister heads the elected government.',
+                'MNREGA (Mahatma Gandhi National Rural Employment Guarantee Act) is a federal law that guarantees 100 days of wage employment per financial year to rural households. It is still active across India including Delhi.',
+                'The Delhi Government provides various social schemes including subsidized electricity, water supply, pension schemes for elderly and disabled, and healthcare programs.',
+                'The current CM of Delhi heads the Delhi Government. The government implements schemes for education, healthcare, transportation, and employment across the NCR region.',
+                'Delhi policies focus on sustainable development, improving public services, and providing social security to marginalized communities. Key areas include education, health, and employment.'
+            ];
+            let randomResponse = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+            addMessage(randomResponse, 'bot');
+        }, 1200);
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
