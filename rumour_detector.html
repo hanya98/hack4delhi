@@ -38,59 +38,57 @@ button:disabled{opacity:0.6;cursor:not-allowed;}
 </div>
 <div class='content'>
 <div class='input-group'>
-<label class='input-label'>Ask anything</label>
-<textarea id='input' placeholder='Ask any question...'></textarea>
-<button onclick='sendMsg()' id='sendBtn'>Search</button>
+<label class='input-label'>Ask any question</label>
+<textarea id='input' placeholder='Ask anything...'></textarea>
+<button onclick='ask()' id='btn'>Search</button>
 </div>
-<div class='loading' id='loading'><div class='spinner'></div><span>Processing with AI...</span></div>
+<div class='loading' id='loading'><div class='spinner'></div><span>Thinking...</span></div>
 <div class='chat-area' id='chat'></div>
 </div>
 </div>
 <script>
-function sendMsg(){
-  let input=document.getElementById('input').value.trim();
-  if(!input){
-    alert('Please type something');
-    return;
-  }
-  
-  addMsg(input,'user');
+function ask(){
+  let q=document.getElementById('input').value.trim();
+  if(!q){alert('type something');return;}
+  addMsg(q,'user');
   document.getElementById('input').value='';
   document.getElementById('loading').classList.add('show');
-  document.getElementById('sendBtn').disabled=true;
+  document.getElementById('btn').disabled=true;
   
-  fetch('/api/chat',{
+  fetch('https://api.perplexity.ai/chat/completions',{
     method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({query:input})
+    headers:{
+      'Authorization':'Bearer pplx-fa56797b2e8857d005bc131a33d2416a0b4b4f16fcf3afcf8ea822b765cd1cd4',
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify({
+      model:'llama-3.1-sonar-small-128k-online',
+      messages:[{role:'user',content:q}],
+      max_tokens:500
+    })
   })
-  .then(resp=>resp.json())
-  .then(data=>{
+  .then(r=>r.json())
+  .then(d=>{
     document.getElementById('loading').classList.remove('show');
-    document.getElementById('sendBtn').disabled=false;
-    
-    if(data.response){
-      addMsg(data.response,'bot');
-    }
-    else if(data.error){
-      addMsg('Error: '+data.error,'bot');
-    }
-    else{
-      addMsg('Could not get response','bot');
+    document.getElementById('btn').disabled=false;
+    if(d.choices && d.choices[0]){
+      addMsg(d.choices[0].message.content,'bot');
+    }else{
+      addMsg('Error: '+JSON.stringify(d.error),'bot');
     }
   })
-  .catch(err=>{
+  .catch(e=>{
     document.getElementById('loading').classList.remove('show');
-    document.getElementById('sendBtn').disabled=false;
-    addMsg('Network error: '+err.message,'bot');
+    document.getElementById('btn').disabled=false;
+    addMsg('Error: '+e.message,'bot');
   });
 }
 
-function addMsg(text,type){
-  let div=document.createElement('div');
-  div.className='msg '+type;
-  div.textContent=text;
-  document.getElementById('chat').appendChild(div);
+function addMsg(t,s){
+  let d=document.createElement('div');
+  d.className='msg '+s;
+  d.textContent=t;
+  document.getElementById('chat').appendChild(d);
   document.getElementById('chat').scrollTop=document.getElementById('chat').scrollHeight;
 }
 </script>
