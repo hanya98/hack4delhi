@@ -10,270 +10,241 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f5ede3 0%, #ede9e1 100%);
+      font-family: Segoe UI, Arial, sans-serif;
+      background: #f5ede3;
       min-height: 100vh;
-      padding: 20px;
+      padding: 15px;
     }
+
     .container {
-      max-width: 900px;
+      max-width: 950px;
       margin: 0 auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       overflow: hidden;
     }
+
     .header {
       background: linear-gradient(to right, #a74432, #c41e3a);
-      color: #fff;
-      padding: 40px 30px;
+      color: white;
+      padding: 35px 30px;
       text-align: center;
     }
+
     .header h1 {
-      font-size: 32px;
-      font-weight: 700;
+      font-size: 30px;
       margin-bottom: 8px;
-      letter-spacing: -0.5px;
+      font-weight: bold;
     }
+
     .header p {
-      font-size: 15px;
-      opacity: 0.95;
-      font-weight: 300;
+      font-size: 14px;
+      opacity: 0.9;
     }
+
     .content {
-      padding: 40px;
+      padding: 30px;
     }
-    .input-group {
-      margin-bottom: 25px;
+
+    .input-section {
+      margin-bottom: 20px;
     }
+
     label {
       display: block;
       font-size: 14px;
       font-weight: 600;
       color: #333;
       margin-bottom: 10px;
-      letter-spacing: 0.3px;
     }
+
     textarea {
       width: 100%;
-      min-height: 100px;
-      padding: 14px;
+      padding: 12px;
       border: 2px solid #ddd;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 14px;
       font-family: inherit;
+      min-height: 100px;
       resize: vertical;
-      transition: border-color 0.3s;
     }
+
     textarea:focus {
-      outline: 0;
+      outline: none;
       border-color: #a74432;
-      background: #fffbf7;
+      background-color: #fffbf7;
     }
+
     button {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       background: #a74432;
-      color: #fff;
-      border: 0;
-      border-radius: 8px;
+      color: white;
+      border: none;
+      border-radius: 6px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       margin-top: 10px;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease;
     }
+
     button:hover {
       background: #8a3729;
-      box-shadow: 0 4px 14px rgba(167, 68, 50, 0.3);
-      transform: translateY(-2px);
     }
+
     button:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
-      transform: none;
     }
-    .chat-area {
-      margin-top: 30px;
+
+    .chat {
+      margin-top: 25px;
       background: #faf8f5;
-      border: 1px solid #e0ddd8;
-      border-radius: 8px;
-      min-height: 350px;
-      max-height: 500px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      min-height: 300px;
+      max-height: 450px;
       overflow-y: auto;
-      padding: 20px;
     }
-    .msg {
-      margin-bottom: 15px;
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.5;
+
+    .message {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 5px;
+      font-size: 13px;
+      line-height: 1.4;
       word-wrap: break-word;
     }
-    .msg.user {
+
+    .user-msg {
       background: #a74432;
-      color: #fff;
+      color: white;
       text-align: right;
-      margin-left: 20%;
-      border-radius: 12px 4px 12px 12px;
+      margin-left: 25%;
+      border-radius: 8px 4px 8px 8px;
     }
-    .msg.bot {
+
+    .bot-msg {
       background: #ede9e1;
       color: #333;
-      margin-right: 20%;
-      border-left: 4px solid #a74432;
-      border-radius: 4px 12px 12px 12px;
+      margin-right: 25%;
+      border-left: 3px solid #a74432;
+      border-radius: 4px 8px 8px 8px;
     }
+
     .loading {
-      display: none;
       text-align: center;
       color: #999;
-      padding: 20px;
-      font-size: 13px;
+      font-size: 12px;
+      display: none;
     }
+
     .loading.show {
       display: block;
-    }
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #ddd;
-      border-top-color: #a74432;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 8px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .error-msg {
-      background: #fee;
-      color: #c00;
-      border-left: 4px solid #c00;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Delhi Policy Rumour Detector</h1>
-      <p>Get accurate information about Delhi government schemes and policies</p>
-    </div>
-    <div class="content">
-      <div class="input-group">
-        <label for="userInput">Ask any question about Delhi policies, schemes, or facts:</label>
-        <textarea id="userInput" placeholder="Type your question here... e.g., What is the current CM of Delhi? Is this scheme real?"></textarea>
-        <button id="sendBtn" onclick="sendMessage()">Send Question</button>
-      </div>
-      <div class="chat-area" id="chatArea">
-        <div class="loading" id="loading">
-          <span class="spinner"></span>Processing your question...
-        </div>
-      </div>
-    </div>
+
+<div class="container">
+  <div class="header">
+    <h1>Delhi Policy Rumour Detector</h1>
+    <p>Check facts about Delhi government and policies</p>
   </div>
 
-  <script>
-    const chatArea = document.getElementById('chatArea');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const loading = document.getElementById('loading');
+  <div class="content">
+    <div class="input-section">
+      <label>Ask your question:</label>
+      <textarea id="question" placeholder="Type question here... What schemes exist? Is this true?"></textarea>
+      <button onclick="sendMsg()">Send</button>
+    </div>
 
-    async function sendMessage() {
-      const question = userInput.value.trim();
-      if (!question) return;
+    <div class="chat" id="chat">
+      <div class="loading" id="loading">Thinking...</div>
+    </div>
+  </div>
+</div>
 
-      // Add user message to chat
-      const userMsg = document.createElement('div');
-      userMsg.className = 'msg user';
-      userMsg.textContent = question;
-      chatArea.appendChild(userMsg);
-      
-      userInput.value = '';
-      sendBtn.disabled = true;
-      loading.classList.add('show');
+<script>
+const chat = document.getElementById('chat');
+const input = document.getElementById('question');
+const btn = document.querySelector('button');
+const loading = document.getElementById('loading');
 
-      try {
-        // Try to connect to backend first
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question })
-        }).catch(() => null);
+function sendMsg() {
+  const q = input.value.trim();
+  if (!q) return;
 
-        if (response && response.ok) {
-          const data = await response.json();
-          displayBotMessage(data.answer);
-        } else {
-          // Fallback to direct API call if backend unavailable
-          await fetchDirectAnswer(question);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        displayBotMessage('Sorry, I could not process your question. Please try again.');
-      } finally {
-        loading.classList.remove('show');
-        sendBtn.disabled = false;
-        userInput.focus();
-      }
-    }
+  let userMsg = document.createElement('div');
+  userMsg.className = 'message user-msg';
+  userMsg.textContent = q;
+  chat.appendChild(userMsg);
+  input.value = '';
+  btn.disabled = true;
+  loading.classList.add('show');
 
-    async function fetchDirectAnswer(question) {
-      try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer fa56797b2e8857d005bc131a33d2416a0b4b4f16fcf3afcf8ea822b765cd1cd4',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            model: 'mixtral-8x7b-32768',
-            messages: [
-              {
-                role: 'system',
-                content: 'You are a helpful AI assistant focused on Delhi government policies, schemes, and information. Answer questions accurately. Current CM of Delhi is Rekha Gupta.'
-              },
-              {
-                role: 'user',
-                content: question
-              }
-            ],
-            temperature: 0.7,
-            max_tokens: 1024
-          })
-        });
+  fetchAnswer(q);
+}
 
-        if (response.ok) {
-          const data = await response.json();
-          const answer = data.choices[0].message.content;
-          displayBotMessage(answer);
-        } else {
-          displayBotMessage('Unable to fetch response. Please try again later.');
-        }
-      } catch (error) {
-        console.error('Direct fetch error:', error);
-        displayBotMessage('Network error. Please ensure you are connected to the internet.');
-      }
-    }
+function fetchAnswer(question) {
+  // Try backend first
+  fetch('/api/chat', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({question})
+  })
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => showAnswer(d.answer))
+  .catch(() => tryGroq(question));
+}
 
-    function displayBotMessage(text) {
-      const botMsg = document.createElement('div');
-      botMsg.className = 'msg bot';
-      botMsg.textContent = text;
-      chatArea.appendChild(botMsg);
-      chatArea.scrollTop = chatArea.scrollHeight;
-    }
+function tryGroq(question) {
+  const msgs = [
+    {role: 'system', content: 'You help with Delhi government info. Current CM: Rekha Gupta'},
+    {role: 'user', content: question}
+  ];
 
-    // Allow Enter key to send
-    userInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-  </script>
+  fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer fa56797b2e8857d005bc131a33d2416a0b4b4f16fcf3afcf8ea822b765cd1cd4',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'mixtral-8x7b-32768',
+      messages: msgs,
+      temperature: 0.7,
+      max_tokens: 1024
+    })
+  })
+  .then(r => r.json())
+  .then(d => showAnswer(d.choices[0].message.content))
+  .catch(() => showAnswer('Could not fetch response. Try again.'));
+}
+
+function showAnswer(text) {
+  let botMsg = document.createElement('div');
+  botMsg.className = 'message bot-msg';
+  botMsg.textContent = text;
+  chat.appendChild(botMsg);
+  chat.scrollTop = chat.scrollHeight;
+  loading.classList.remove('show');
+  btn.disabled = false;
+  input.focus();
+}
+
+input.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMsg();
+  }
+});
+</script>
+
 </body>
 </html>
