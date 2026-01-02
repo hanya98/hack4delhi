@@ -5,120 +5,292 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delhi Rumour Detector</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; display: flex; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .sidebar { width: 280px; background: rgba(26, 58, 90, 0.95); color: white; padding: 30px 20px; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.3); }
-        .sidebar h2 { font-size: 24px; margin-bottom: 40px; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 15px; }
-        .nav-item { padding: 12px 15px; margin: 8px 0; border-radius: 8px; cursor: pointer; color: #ecf0f1; text-decoration: none; display: block; transition: all 0.3s; }
-        .nav-item:hover { background: #2c527a; padding-left: 25px; }
-        .nav-item.active { background: #3498db; font-weight: 600; }
-        .main { flex: 1; margin-left: 280px; padding: 40px; }
-        .chat-box { background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; height: 80vh; display: flex; flex-direction: column; }
-        .chat-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; text-align: center; }
-        .chat-header h1 { font-size: 24px; margin-bottom: 5px; }
-        .chat-header p { font-size: 13px; opacity: 0.9; }
-        .messages { flex: 1; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; gap: 15px; background: #f8f9fa; }
-        .msg { display: flex; margin-bottom: 12px; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .msg.bot { justify-content: flex-start; }
-        .msg.user { justify-content: flex-end; }
-        .msg-content { max-width: 65%; padding: 12px 16px; border-radius: 12px; word-wrap: break-word; line-height: 1.5; font-size: 14px; }
-        .msg.bot .msg-content { background: #e8eef5; color: #2c3e50; border-left: 4px solid #667eea; }
-        .msg.user .msg-content { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 12px 2px 12px 12px; }
-        .input-area { border-top: 1px solid #e0e6ed; padding: 20px; display: flex; gap: 10px; background: white; }
-        #msg-input { flex: 1; border: 2px solid #e0e6ed; border-radius: 25px; padding: 12px 18px; font-size: 14px; outline: none; transition: all 0.3s; }
-        #msg-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
-        .send-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
-        .send-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
-        @media (max-width: 768px) { .sidebar { width: 0; display: none; } .main { margin-left: 0; padding: 20px; } .chat-box { height: 85vh; } .msg-content { max-width: 90%; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .hindi-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: white;
+            padding: 20px;
+            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover {
+            color: #c41e3a;
+            border-bottom-color: #c41e3a;
+        }
+        
+        .tab-btn.active {
+            color: #c41e3a;
+            border-bottom-color: #c41e3a;
+            font-weight: bold;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .input-section {
+            margin-bottom: 20px;
+        }
+        
+        .input-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .input-section label span {
+            font-size: 12px;
+            color: #666;
+            display: block;
+            margin-top: 2px;
+            font-weight: normal;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #c41e3a;
+            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1);
+        }
+        
+        .btn-search {
+            width: 100%;
+            padding: 15px;
+            background-color: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn-search:hover {
+            background-color: #8b0000;
+        }
+        
+        .btn-search:active {
+            transform: scale(0.98);
+        }
+        
+        .result-box {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            min-height: 100px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .result-box.success {
+            border-color: #28a745;
+            background: #f0f9f0;
+        }
+        
+        .result-box.error {
+            border-color: #c41e3a;
+            background: #fff5f5;
+        }
+        
+        .result-text {
+            line-height: 1.6;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .error-mark {
+            text-align: center;
+            font-size: 48px;
+            color: #c41e3a;
+            margin: 20px 0;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>JanSetu</h2>
-        <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
-        <a href="rumour_detector.html" class="nav-item active">🔍 Rumour Detector</a>
-        <a href="complaint.html" class="nav-item">📝 Complaints</a>
-        <a href="community.html" class="nav-item">👥 Community</a>
+    <div class="header">
+        <div class="hindi-title">दिल्ली नीति अफवाह डिटेक्टर</div>
+        <h1>Delhi Policy Rumour Detector</h1>
+        <p>दिल्ली निवासियों और नीति निर्माताओं के लिए · For Delhi Residents & Policy Makers</p>
     </div>
     
-    <div class="main">
-        <div class="chat-box">
-            <div class="chat-header">
-                <h1>🔍 Smart Rumour Detector</h1>
-                <p>Ask me anything about government schemes, policies, general knowledge, or fact-check any claim</p>
-            </div>
-            
-            <div class="messages" id="messages">
-                <div class="msg bot">
-                    <div class="msg-content">👋 Hi! I'm your AI assistant. I can help with government schemes (PM-JAY, PMAY, DBT, Ladli Behna), Delhi policies, fact-checking, or any general question. What would you like to know?</div>
-                </div>
-            </div>
-            
-            <div class="input-area">
-                <input type="text" id="msg-input" placeholder="Ask about schemes, policies, or fact-check a claim...">
-                <button class="send-btn" onclick="sendMsg()">Send</button>
-            </div>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('schemes')">योजनाएं / Schemes</button>
+        <button class="tab-btn" onclick="switchTab('policies')">नीतियां / Policies</button>
+        <button class="tab-btn" onclick="switchTab('news')">सरकारी खबर / News</button>
+    </div>
+    
+    <div class="container">
+        <div class="input-section">
+            <label>
+                दिल्ली/भारत की नीति, योजना या विषय के बारे में संदेश दर्ज करें
+                <span>Enter message about Delhi/India policy, scheme, or bill</span>
+            </label>
+            <textarea id="userInput" placeholder="is MNREGA policy removed?"></textarea>
+        </div>
+        
+        <button class="btn-search" onclick="checkRumor()">🔍 लाइव वेब खोज के साथ सत्यापित करें / Verify with Live Web Search</button>
+        
+        <div class="result-box" id="resultBox">
+            <div class="result-text" id="resultText"></div>
+        </div>
+        
+        <div id="loadingDiv" class="loading" style="display:none;">
+            <p>Checking... कृपया प्रतीक्षा करें...</p>
         </div>
     </div>
     
     <script>
-        const kb = {
-            'pm-jay': 'PM-JAY (Pradhan Mantri Jan Arogya Yojana) provides free health insurance of up to 5 lakh rupees per family annually. Covers hospitalization, medicines, and diagnostics for families below poverty line.',
-            'pmay': 'PMAY (Pradhan Mantri Awas Yojana) aims to provide affordable housing to all citizens by 2024. Offers subsidized loans, construction assistance, and land allocation for low-income families.',
-            'ladli behna': 'Ladli Behna Yojana provides 1000 rupees monthly to eligible women in Delhi. Benefits go to women between 18-60 years from economically weaker families.',
-            'dbt': 'Direct Benefit Transfer (DBT) ensures direct cash transfer to citizens for various welfare schemes. Eliminates middlemen and ensures faster, transparent disbursement of benefits.',
-            'voter id': 'Voter ID is an official identity document issued by Election Commission. You can apply online or offline at your nearest election office. Valid for voting and general identification.',
-            'aadhaar': 'Aadhaar is a 12-digit unique identity issued to Indian residents. Used for opening bank accounts, getting government benefits, and identity verification.',
-            'ration card': 'Ration Card provides subsidized food grains to eligible families. Public Distribution System (PDS) cardholders get rice, wheat, sugar, and other essentials at fixed prices.',
-            'pan card': 'PAN (Permanent Account Number) is needed for income tax filing, opening bank accounts, and financial transactions. Apply online at NSDL or UTIITSL website.',
-            'scholarship': 'Various government scholarships available for students: SC/ST scholarships, girl child education, merit-based, and vocational training. Check ministry of education website.',
-            'income tax': 'Income tax filing is mandatory for salaried individuals and self-employed persons earning above minimum threshold. Deadline is usually 31st July each year.',
-            'gst': 'GST (Goods and Services Tax) is a single indirect tax on goods and services. Rates vary: 0%, 5%, 12%, 18%, 28%. Registered businesses must file monthly/quarterly returns.',
-            'bjb': 'Bhamashah Card: A digital identity linked to bank accounts for Rajasthan residents. Facilitates government benefit transfers and social security schemes.',
-            'mudra loan': 'MUDRA (Micro Units Development & Refinance Agency) provides loans up to 10 lakhs for small businesses without collateral. Helps entrepreneurs start/expand ventures.',
-            'skill india': 'Skill India Mission provides free vocational training in various sectors. Offers diplomas, certificates, and job placements in construction, IT, healthcare, manufacturing.',
-            'ayushman': 'Ayushman Bharat provides health insurance to eligible families. Covers preventive health check-ups, hospitalization, and treatment at government and private hospitals.',
-            'election': 'Elections in India are conducted using EVM (Electronic Voting Machine) and VVPAT (Voter Verifiable Paper Audit Trail). Citizens can vote from age 18.',
-            'constitution': 'Indian Constitution has 448 articles in 22 parts. It establishes rights, duties, and democratic governance framework. Dr. B.R. Ambedkar was its principal architect.',
-            'parliament': 'Indian Parliament has two houses: Lok Sabha (545 members) and Rajya Sabha (245 members). Lok Sabha is directly elected, Rajya Sabha represents states.',
-            'ministry': 'India has 32 ministries and departments. Some major ones: Finance, Defense, Health, Education, Agriculture. Run by ministers and secretaries.',
-            'rti': 'Right to Information (RTI) allows citizens to request government documents and information. Applications processed within 30 days. Helps ensure transparency.'
-        };
+        // gemini api key - dont share this
+        const API_KEY = 'AIzaSyBw2gp9ovaWkPTmdxb7EKDI_cF1jbhNvF0';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
         
-        const messages = document.getElementById('messages');
-        const input = document.getElementById('msg-input');
+        let activeTab = 'schemes';
         
-        input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMsg(); });
-        
-        function sendMsg() {
-            const text = input.value.trim().toLowerCase();
-            if (!text) return;
-            
-            addMsg(input.value, 'user');
-            input.value = '';
-            
-            let reply = 'I can answer questions about government schemes, policies, elections, law, taxation, and general knowledge. Try asking about: PM-JAY, PMAY, Ladli Behna, DBT, Voter ID, Constitution, Elections, or any general topic. Be specific for better answers!';
-            
-            for (let key in kb) {
-                if (text.includes(key)) {
-                    reply = kb[key];
-                    break;
-                }
-            }
-            
-            setTimeout(() => addMsg(reply, 'bot'), 400);
+        function switchTab(tab) {
+            activeTab = tab;
+            // update button styles
+            let btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
         }
         
-        function addMsg(text, sender) {
-            const div = document.createElement('div');
-            div.className = `msg ${sender}`;
-            const content = document.createElement('div');
-            content.className = 'msg-content';
-            content.textContent = text;
-            div.appendChild(content);
-            messages.appendChild(div);
-            messages.scrollTop = messages.scrollHeight;
+        function checkRumor() {
+            let input = document.getElementById('userInput').value.trim();
+            
+            if (!input) {
+                alert('Please enter something to check');
+                return;
+            }
+            
+            // show loading
+            document.getElementById('loadingDiv').style.display = 'block';
+            document.getElementById('resultBox').classList.remove('show');
+            
+            // call gemini api
+            callGemini(input);
+        }
+        
+        function callGemini(query) {
+            const prompt = `You are a fact checker for Delhi and India government policies, schemes, and bills. User is asking: "${query}". Please verify if this is true or false. Provide a detailed response about whether this is a rumor or fact. Also mention official sources if applicable.`;
+            
+            fetch(API_URL + '?key=' + API_KEY, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('API error: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('loadingDiv').style.display = 'none';
+                
+                // extract response
+                let text = data.candidates[0].content.parts[0].text;
+                
+                // show result
+                let resultBox = document.getElementById('resultBox');
+                let resultText = document.getElementById('resultText');
+                
+                resultText.innerHTML = text.replace(/\n/g, '<br>');
+                resultBox.classList.add('show', 'success');
+            })
+            .catch(error => {
+                document.getElementById('loadingDiv').style.display = 'none';
+                
+                let resultBox = document.getElementById('resultBox');
+                let resultText = document.getElementById('resultText');
+                
+                resultText.innerHTML = 'Error checking: ' + error.message;
+                resultBox.classList.add('show', 'error');
+            });
         }
     </script>
 </body>
