@@ -150,101 +150,107 @@
   </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="header">
-    <h1>Delhi Policy Rumour Detector</h1>
-    <p>Check facts about Delhi government and policies</p>
-  </div>
-
-  <div class="content">
-    <div class="input-section">
-      <label>Ask your question:</label>
-      <textarea id="question" placeholder="Type question here... What schemes exist? Is this true?"></textarea>
-      <button onclick="sendMsg()">Send</button>
+  <div class="container">
+    <div class="header">
+      <h1>Delhi Policy Rumour Detector</h1>
+      <p>Check facts about Delhi government and policies</p>
     </div>
-
-    <div class="chat" id="chat">
-      <div class="loading" id="loading">Thinking...</div>
+    <div class="content">
+      <div class="input-section">
+        <label>Ask your question:</label>
+        <textarea id="question" placeholder="Ask me anything about Delhi government schemes, policies, or facts..."></textarea>
+        <button onclick="sendMsg()">Send Question</button>
+      </div>
+      <div id="loading" class="loading">Thinking...</div>
+      <div id="chat" class="chat"></div>
     </div>
   </div>
-</div>
 
-<script>
-const chat = document.getElementById('chat');
-const input = document.getElementById('question');
-const btn = document.querySelector('button');
-const loading = document.getElementById('loading');
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('question');
+    const btn = document.querySelector('button');
+    const loading = document.getElementById('loading');
 
-function sendMsg() {
-  const q = input.value.trim();
-  if (!q) return;
+    const GROQ_API_KEY = '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';
+    const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-  let userMsg = document.createElement('div');
-  userMsg.className = 'message user-msg';
-  userMsg.textContent = q;
-  chat.appendChild(userMsg);
-  input.value = '';
-  btn.disabled = true;
-  loading.classList.add('show');
+    function sendMsg() {
+      const q = input.value.trim();
+      if (!q) return;
 
-  fetchAnswer(q);
-}
+      let userMsg = document.createElement('div');
+      userMsg.className = 'message user-msg';
+      userMsg.textContent = q;
+      chat.appendChild(userMsg);
+      input.value = '';
+      btn.disabled = true;
+      loading.classList.add('show');
 
-function fetchAnswer(question) {
-  // Try backend first
-  fetch('/api/chat', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({question})
-  })
-  .then(r => r.ok ? r.json() : Promise.reject())
-  .then(d => showAnswer(d.answer))
-  .catch(() => tryGroq(question));
-}
+      fetchAnswer(q);
+    }
 
-function tryGroq(question) {
-  const msgs = [
-    {role: 'system', content: 'You help with Delhi government info. Current CM: Rekha Gupta'},
-    {role: 'user', content: question}
-  ];
+    function fetchAnswer(question) {
+      const msgs = [
+        {
+          role: 'system',
+          content: 'You are a knowledgeable assistant about Delhi government policies, schemes, and facts. Current CM of Delhi: Rekha Gupta. Provide accurate, concise information about Delhi government initiatives, welfare schemes, policies, and factual information. Answer any general questions as well.'
+        },
+        {
+          role: 'user',
+          content: question
+        }
+      ];
 
-  fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer fa56797b2e8857d005bc131a33d2416a0b4b4f16fcf3afcf8ea822b765cd1cd4',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'mixtral-8x7b-32768',
-      messages: msgs,
-      temperature: 0.7,
-      max_tokens: 1024
-    })
-  })
-  .then(r => r.json())
-  .then(d => showAnswer(d.choices[0].message.content))
-  .catch(() => showAnswer('Could not fetch response. Try again.'));
-}
+      fetch(GROQ_API_URL, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'mixtral-8x7b-32768',
+          messages: msgs,
+          temperature: 0.7,
+          max_tokens: 1024
+        })
+      })
+      .then(r => {
+        if (!r.ok) {
+          throw new Error('API error: ' + r.status);
+        }
+        return r.json();
+      })
+      .then(d => {
+        if (d.choices && d.choices[0] && d.choices[0].message) {
+          showAnswer(d.choices[0].message.content);
+        } else {
+          showAnswer('Could not process response. Try again.');
+        }
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        showAnswer('Unable to fetch response. Please try again.');
+      });
+    }
 
-function showAnswer(text) {
-  let botMsg = document.createElement('div');
-  botMsg.className = 'message bot-msg';
-  botMsg.textContent = text;
-  chat.appendChild(botMsg);
-  chat.scrollTop = chat.scrollHeight;
-  loading.classList.remove('show');
-  btn.disabled = false;
-  input.focus();
-}
+    function showAnswer(text) {
+      let botMsg = document.createElement('div');
+      botMsg.className = 'message bot-msg';
+      botMsg.textContent = text;
+      chat.appendChild(botMsg);
+      chat.scrollTop = chat.scrollHeight;
+      loading.classList.remove('show');
+      btn.disabled = false;
+      input.focus();
+    }
 
-input.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMsg();
-  }
-});
-</script>
-
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMsg();
+      }
+    });
+  </script>
 </body>
 </html>
