@@ -1,297 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delhi Rumour Detector</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
-            color: white;
-            padding: 20px 40px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .hindi-title {
-            font-size: 20px;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            background: white;
-            padding: 20px;
-            border-bottom: 2px solid #ddd;
-            flex-wrap: wrap;
-        }
-        
-        .tab-btn {
-            padding: 12px 24px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 14px;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .tab-btn:hover {
-            color: #c41e3a;
-            border-bottom-color: #c41e3a;
-        }
-        
-        .tab-btn.active {
-            color: #c41e3a;
-            border-bottom-color: #c41e3a;
-            font-weight: bold;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .input-section {
-            margin-bottom: 20px;
-        }
-        
-        .input-section label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .input-section label span {
-            font-size: 12px;
-            color: #666;
-            display: block;
-            margin-top: 2px;
-            font-weight: normal;
-        }
-        
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            resize: vertical;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #c41e3a;
-            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1);
-        }
-        
-        .btn-search {
-            width: 100%;
-            padding: 15px;
-            background-color: #c41e3a;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.3s;
-            font-weight: bold;
-        }
-        
-        .btn-search:hover {
-            background-color: #8b0000;
-        }
-        
-        .btn-search:active {
-            transform: scale(0.98);
-        }
-        
-        .result-box {
-            margin-top: 30px;
-            padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            min-height: 100px;
-            display: none;
-        }
-        
-        .result-box.show {
-            display: block;
-        }
-        
-        .result-box.success {
-            border-color: #28a745;
-            background: #f0f9f0;
-        }
-        
-        .result-box.error {
-            border-color: #c41e3a;
-            background: #fff5f5;
-        }
-        
-        .result-text {
-            line-height: 1.6;
-            color: #333;
-            font-size: 14px;
-        }
-        
-        .error-mark {
-            text-align: center;
-            font-size: 48px;
-            color: #c41e3a;
-            margin: 20px 0;
-        }
-        
-        .loading {
-            text-align: center;
-            color: #666;
-            padding: 20px;
-        }
-    </style>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width'>
+<title>Delhi Rumour Detector</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: #f0f0f0;
+}
+
+.top-bar {
+background: white;
+padding: 10px 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #ddd;
+}
+
+.top-bar-left {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.flag-icon {
+font-size: 20px;
+}
+
+.title-section {
+text-align: center;
+padding: 25px 40px;
+background: linear-gradient(to right, #8B0000, #C41E3A, #8B0000);
+color: white;
+border-bottom: 3px solid #FF6B35;
+}
+
+.title-section h1 {
+font-size: 22px;
+margin-bottom: 2px;
+font-weight: bold;
+}
+
+.title-section .hindi {
+font-size: 24px;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+.title-section p {
+font-size: 13px;
+margin-top: 5px;
+opacity: 0.95;
+}
+
+.tabs-container {
+background: white;
+padding: 15px 40px;
+display: flex;
+justify-content: center;
+gap: 30px;
+border-bottom: 1px solid #ddd;
+flex-wrap: wrap;
+}
+
+.tab {
+padding: 10px 15px;
+background: none;
+border: none;
+cursor: pointer;
+font-size: 14px;
+color: #666;
+border-bottom: 3px solid transparent;
+transition: all 0.3s;
+font-weight: 500;
+}
+
+.tab:hover {
+color: #8B0000;
+border-bottom-color: #8B0000;
+}
+
+.tab.active {
+color: #8B0000;
+border-bottom-color: #8B0000;
+font-weight: bold;
+}
+
+.content {
+max-width: 1000px;
+margin: 30px auto;
+padding: 30px;
+background: white;
+border-radius: 6px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.section-title {
+font-size: 16px;
+font-weight: bold;
+color: #333;
+margin-bottom: 8px;
+}
+
+.section-subtitle {
+font-size: 12px;
+color: #666;
+margin-bottom: 15px;
+}
+
+textarea {
+width: 100%;
+min-height: 140px;
+padding: 12px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 14px;
+font-family: Arial, sans-serif;
+resize: vertical;
+margin-bottom: 15px;
+}
+
+textarea:focus {
+outline: none;
+border-color: #8B0000;
+box-shadow: 0 0 4px rgba(139, 0, 0, 0.2);
+}
+
+.btn-verify {
+width: 100%;
+padding: 14px;
+background: #8B0000;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-size: 15px;
+font-weight: bold;
+transition: background 0.3s;
+margin-bottom: 20px;
+}
+
+.btn-verify:hover {
+background: #6B0000;
+}
+
+.btn-verify:active {
+transform: scale(0.98);
+}
+
+.result-section {
+margin-top: 20px;
+padding: 15px;
+border: 1px solid #ddd;
+border-radius: 4px;
+background: #f9f9f9;
+display: none;
+}
+
+.result-section.show {
+display: block;
+}
+
+.result-text {
+line-height: 1.6;
+color: #333;
+font-size: 13px;
+}
+
+.loading {
+text-align: center;
+padding: 20px;
+color: #666;
+display: none;
+}
+
+.loading.show {
+display: block;
+}
+
+.error-icon {
+font-size: 48px;
+text-align: center;
+color: #8B0000;
+margin: 15px 0;
+}
+
+@media (max-width: 768px) {
+.title-section,
+.tabs-container,
+.content {
+padding: 15px 20px;
+}
+.tabs-container {
+gap: 15px;
+}
+}
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="hindi-title">दिल्ली नीति अफवाह डिटेक्टर</div>
-        <h1>Delhi Policy Rumour Detector</h1>
-        <p>दिल्ली निवासियों और नीति निर्माताओं के लिए · For Delhi Residents & Policy Makers</p>
-    </div>
-    
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('schemes')">योजनाएं / Schemes</button>
-        <button class="tab-btn" onclick="switchTab('policies')">नीतियां / Policies</button>
-        <button class="tab-btn" onclick="switchTab('news')">सरकारी खबर / News</button>
-    </div>
-    
-    <div class="container">
-        <div class="input-section">
-            <label>
-                दिल्ली/भारत की नीति, योजना या विषय के बारे में संदेश दर्ज करें
-                <span>Enter message about Delhi/India policy, scheme, or bill</span>
-            </label>
-            <textarea id="userInput" placeholder="is MNREGA policy removed?"></textarea>
-        </div>
-        
-        <button class="btn-search" onclick="checkRumor()">🔍 लाइव वेब खोज के साथ सत्यापित करें / Verify with Live Web Search</button>
-        
-        <div class="result-box" id="resultBox">
-            <div class="result-text" id="resultText"></div>
-        </div>
-        
-        <div id="loadingDiv" class="loading" style="display:none;">
-            <p>Checking... कृपया प्रतीक्षा करें...</p>
-        </div>
-    </div>
-    
-    <script>
-        // gemini api key - dont share this
-        const API_KEY = 'AIzaSyBw2gp9ovaWkPTmdxb7EKDI_cF1jbhNvF0';
-        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-        
-        let activeTab = 'schemes';
-        
-        function switchTab(tab) {
-            activeTab = tab;
-            // update button styles
-            let btns = document.querySelectorAll('.tab-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        
-        function checkRumor() {
-            let input = document.getElementById('userInput').value.trim();
-            
-            if (!input) {
-                alert('Please enter something to check');
-                return;
-            }
-            
-            // show loading
-            document.getElementById('loadingDiv').style.display = 'block';
-            document.getElementById('resultBox').classList.remove('show');
-            
-            // call gemini api
-            callGemini(input);
-        }
-        
-        function callGemini(query) {
-            const prompt = `You are a fact checker for Delhi and India government policies, schemes, and bills. User is asking: "${query}". Please verify if this is true or false. Provide a detailed response about whether this is a rumor or fact. Also mention official sources if applicable.`;
-            
-            fetch(API_URL + '?key=' + API_KEY, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
-                    }]
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('API error: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('loadingDiv').style.display = 'none';
-                
-                // extract response
-                let text = data.candidates[0].content.parts[0].text;
-                
-                // show result
-                let resultBox = document.getElementById('resultBox');
-                let resultText = document.getElementById('resultText');
-                
-                resultText.innerHTML = text.replace(/\n/g, '<br>');
-                resultBox.classList.add('show', 'success');
-            })
-            .catch(error => {
-                document.getElementById('loadingDiv').style.display = 'none';
-                
-                let resultBox = document.getElementById('resultBox');
-                let resultText = document.getElementById('resultText');
-                
-                resultText.innerHTML = 'Error checking: ' + error.message;
-                resultBox.classList.add('show', 'error');
-            });
-        }
-    </script>
+
+<div class='top-bar'>
+<div class='top-bar-left'>
+<span class='flag-icon'>🇮🇳</span>
+<span>भारत</span>
+</div>
+<div class='top-bar-left'>
+<span>दिल्ली NCR</span>
+</div>
+</div>
+
+<div class='title-section'>
+<div class='hindi'>दिल्ली नीति अफवाह डिटेक्टर</div>
+<h1>Delhi Policy Rumour Detector</h1>
+<p>दिल्ली निवासियों और नीति निर्माताओं के लिए · For Delhi Residents & Policy Makers</p>
+</div>
+
+<div class='tabs-container'>
+<button class='tab active' onclick="switchTab(this)">योजनाएं / Schemes</button>
+<button class='tab' onclick="switchTab(this)">नीतियां / Policies</button>
+<button class='tab' onclick="switchTab(this)">सरकारी खबर / News</button>
+</div>
+
+<div class='content'>
+<div class='section-title'>दिल्ली/भारत की नीति, योजना या विषय के बारे में संदेश दर्ज करें</div>
+<div class='section-subtitle'>Enter message about Delhi/India policy, scheme, or bill</div>
+
+<textarea id='userMsg' placeholder='is MNREGA policy removed?'></textarea>
+
+<button class='btn-verify' onclick='checkMsg()'>🔍 लाइव वेब खोज के साथ सत्यापित करें / Verify with Live Web Search</button>
+
+<div class='loading' id='loadDiv'>
+<p>Checking... कृपया प्रतीक्षा करें</p>
+</div>
+
+<div class='result-section' id='resultDiv'>
+<div class='result-text' id='resultTxt'></div>
+</div>
+
+<div class='error-icon' id='errIcon' style='display:none;'>✗</div>
+</div>
+
+<script>
+const API_KEY = 'AIzaSyBw2gp9ovaWkPTmdxb7EKDI_cF1jbhNvF0';
+const API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+
+function switchTab(elem) {
+let tabs = document.querySelectorAll('.tab');
+tabs.forEach(t => t.classList.remove('active'));
+elem.classList.add('active');
+}
+
+function checkMsg() {
+let msg = document.getElementById('userMsg').value.trim();
+
+if (!msg) {
+alert('please type something');
+return;
+}
+
+let loadDiv = document.getElementById('loadDiv');
+let resultDiv = document.getElementById('resultDiv');
+
+loadDiv.classList.add('show');
+resultDiv.classList.remove('show');
+
+sendToGemini(msg);
+}
+
+function sendToGemini(query) {
+let prompt = query;
+
+fetch(API_ENDPOINT + '?key=' + API_KEY, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+contents: [{
+parts: [{
+text: prompt
+}]
+}]
+})
+})
+.then(resp => resp.json())
+.then(data => {
+document.getElementById('loadDiv').classList.remove('show');
+
+if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+let text = data.candidates[0].content.parts[0].text;
+document.getElementById('resultTxt').innerHTML = text.replace(/\n/g, '<br>');
+document.getElementById('resultDiv').classList.add('show');
+} else {
+document.getElementById('resultTxt').innerHTML = 'Error: ' + (data.error ? data.error.message : 'Unknown error');
+document.getElementById('resultDiv').classList.add('show');
+}
+})
+.catch(err => {
+document.getElementById('loadDiv').classList.remove('show');
+document.getElementById('resultTxt').innerHTML = 'Error: ' + err.message;
+document.getElementById('resultDiv').classList.add('show');
+});
+}
+</script>
+
 </body>
 </html>
