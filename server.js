@@ -15,8 +15,7 @@ app.use(express.json());
 app.use(express.static('.'));
 
 const PORT = process.env.PORT || 3000;
-const GEMINI_KEY = 'AIzaSyCcLRAv3warA8EMb9AfpCh8G6LY14tHt98';
-
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
 async function askGemini(userQuestion) {
   try {
     const response = await axios.post(
