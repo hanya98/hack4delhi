@@ -23,8 +23,7 @@ async function askGemini(userQuestion) {
     console.log('[Gemini] Question:', userQuestion);
     
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
-      {
+ `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_KEY}`,      {
         contents: [{
           parts: [{
             text: userQuestion
