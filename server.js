@@ -50,6 +50,7 @@ async function askGemini(userQuestion) {
 
 app.post('/api/chat', async (req, res) => {
   try {
+      console.log('[API] Received question:', question);
     const { question } = req.body;
     
     if (!question || !question.trim()) {
@@ -57,6 +58,7 @@ app.post('/api/chat', async (req, res) => {
     }
 
     const answer = await askGemini(question);
+      console.log('[API] Got answer:', answer);
     res.json({ answer });
   } catch (err) {
     console.error('Error:', err.message);
