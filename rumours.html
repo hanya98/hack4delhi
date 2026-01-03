@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delhi Policy & Rumour Detector</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Segoe UI, Arial, sans-serif; background: #f5ede3; min-height: 100vh; padding: 15px; }
+    .container { max-width: 950px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .header { background: linear-gradient(to right, #6366f1, #8b5cf6); color: white; padding: 35px 30px; text-align: center; }
+    .header h1 { font-size: 30px; margin-bottom: 8px; }
+    .header p { font-size: 14px; opacity: 0.9; }
+    .content { padding: 30px; }
+    label { display: block; font-weight: 600; color: #333; margin-bottom: 10px; }
+    textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; min-height: 100px; }
+    textarea:focus { outline: none; border-color: #6366f1; background-color: #f8f6ff; }
+    button { width: 100%; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #4f46e5; }
+    button:disabled { opacity: 0.5; }
+    .chat { margin-top: 25px; background: #faf8f5; border: 1px solid #ddd; border-radius: 6px; padding: 15px; min-height: 300px; max-height: 450px; overflow-y: auto; }
+    .message { margin-bottom: 12px; padding: 10px 12px; border-radius: 5px; font-size: 13px; }
+    .user-msg { background: #6366f1; color: white; text-align: right; margin-left: 25%; }
+    .bot-msg { background: #ede9e1; color: #333; margin-right: 25%; border-left: 3px solid #6366f1; }
+    .loading { text-align: center; color: #999; display: none; }
+    .loading.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🏛️ Policy & Rumour Detective</h1>
+      <p>Verify Delhi government schemes, policies & common misconceptions</p>
+    </div>
+    <div class="content">
+      <div>
+        <label>Ask your question:</label>
+        <textarea id="question" placeholder="Ask me anything about Delhi..."></textarea>
+        <button onclick="send()">Send Question</button>
+        <div id="loading" class="loading">Thinking...</div>
+      </div>
+      <div id="chat" class="chat">
+        <div class="message bot-msg">
+          Hello! I'm here to help you understand Delhi government policies and check facts on common rumors. What would you like to know?
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function send() {
+      const q = document.getElementById('question').value.trim();
+      if (!q) return;
+      
+      let userMsg = document.createElement('div');
+      userMsg.className = 'message user-msg';
+      userMsg.textContent = q;
+      document.getElementById('chat').appendChild(userMsg);
+      document.getElementById('question').value = '';
+      document.querySelector('button').disabled = true;
+      document.getElementById('loading').classList.add('show');
+      
+      fetch('https://hack4delhi-backend.onrender.com/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({question: q})
+      })
+      .then(r => r.json())
+      .then(d => show(d.answer || 'No response'))
+      .catch(e => show('Server error. Please try again.'));
+    }
+    
+    function show(text) {
+      let botMsg = document.createElement('div');
+      botMsg.className = 'message bot-msg';
+      botMsg.textContent = text;
+      document.getElementById('chat').appendChild(botMsg);
+      document.getElementById('loading').classList.remove('show');
+      document.querySelector('button').disabled = false;
+    }
+    
+    document.getElementById('question').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        send();
+      }
+    });
+  </script>
+</body>
+</html>
