@@ -94,6 +94,11 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+
+app.post('/api/test', async (req, res) => {
+  res.json({ answer: 'backend is working test endpoint' });
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
