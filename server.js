@@ -19,37 +19,55 @@ const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
 async function askGemini(userQuestion) {
   try {
-    console.log('[Gemini] Calling API with key:', GEMINI_KEY ? 'Present' : 'Missing');
+    console.log('[Gemini] API Key status:', GEMINI_KEY ? 'Present' : 'Missing');
     console.log('[Gemini] Question:', userQuestion);
     
+    if (!GEMINI_KEY) {
+      throw new Error('Gemini API key not configured');
+    }
+
+    const payload = {
+      contents: [{
+        parts: [{
+          text: userQuestion
+        }]
+      }],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1024
+      }
+    };
+
+    console.log('[Gemini] Sending request to Gemini API...');
+    
     const response = await axios.post(
- `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_KEY}`,      {
-        contents: [{
-          parts: [{
-            text: userQuestion
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 1024
-        }
-      },
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_KEY}`,
+      payload,
       {
         headers: { 'Content-Type': 'application/json' },
         timeout: 30000
       }
     );
+
+    console.log('[Gemini] Got response from API');
+    console.log('[Gemini] Response data:', JSON.stringify(response.data).substring(0, 200));
     
-    console.log('[Gemini] Got response');
-    
-    if (response.data.candidates && response.data.candidates[0] && response.data.candidates[0].content && response.data.candidates[0].content.parts && response.data.candidates[0].content.parts[0]) {
-      return response.data.candidates[0].content.parts[0].text;
-    } else {
-      console.log('[Gemini] No candidates in response');
-      return 'I could not generate a response. Please try again.';
+    if (response.data && response.data.candidates && response.data.candidates.length > 0) {
+      const candidate = response.data.candidates[0];
+      if (candidate.content && candidate.content.parts && candidate.content.parts.length > 0) {
+        const answer = candidate.content.parts[0].text;
+        console.log('[Gemini] Extracted answer:', answer.substring(0, 100));
+        return answer;
+      }
     }
+    
+    console.log('[Gemini] No valid response structure found');
+    return 'I could not generate a response. Please try again.';
+    
   } catch (err) {
-    console.error('[Gemini Error]', err.response?.status, err.response?.data || err.message);
+    console.error('[Gemini Error] Status:', err.response?.status);
+    console.error('[Gemini Error] Data:', JSON.stringify(err.response?.data || err.message).substring(0, 300));
+    console.error('[Gemini Error] Full error:', err.message);
     throw err;
   }
 }
@@ -65,17 +83,21 @@ app.post('/api/chat', async (req, res) => {
     
     if (!GEMINI_KEY) {
       console.error('[API] API Key not configured');
-      return res.status(500).json({ answer: 'API key not configured. Please set GEMINI_API_KEY environment variable.' });
+      return res.status(500).json({ answer: 'API key not configured' });
     }
     
     const answer = await askGemini(question);
-    console.log('[API] Sending answer');
+    console.log('[API] Sending answer to client');
     res.json({ answer });
     
   } catch (err) {
     console.error('[API Error]', err.message);
     res.status(500).json({ answer: 'Server error: ' + (err.message || 'Unknown error') });
   }
+});
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'Server is running' });
 });
 
 app.listen(PORT, () => {
