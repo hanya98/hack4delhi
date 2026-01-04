@@ -4,16 +4,18 @@ const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type'],
+}));
+
 app.use(express.json());
 app.use(express.static('.'));
 
-const PORT = process.env.PORT || 3000;
-const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
 async function askGemini(userQuestion) {
   try {
