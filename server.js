@@ -40,13 +40,14 @@ async function askGemini(userQuestion) {
     console.log('[Gemini] USING MODEL: gemini-2.5-flash');
 
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`,
-      payload,
-      {
-        headers: { 'Content-Type': 'application/json' },
-        timeout: 30000
-      }
-    );
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`,
+  payload,
+  {
+    headers: { 'Content-Type': 'application/json' },
+    timeout: 30000
+  }
+);
+
 
     console.log('[Gemini] Got response from API');
     console.log('[Gemini] Response data:', JSON.stringify(response.data).substring(0, 200));
