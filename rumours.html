@@ -1,89 +1,661 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Delhi Policy & Rumour Detector</title>
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Segoe UI, Arial, sans-serif; background: #f5ede3; min-height: 100vh; padding: 15px; }
-    .container { max-width: 950px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .header { background: linear-gradient(to right, #6366f1, #8b5cf6); color: white; padding: 35px 30px; text-align: center; }
-    .header h1 { font-size: 30px; margin-bottom: 8px; }
-    .header p { font-size: 14px; opacity: 0.9; }
-    .content { padding: 30px; }
-    label { display: block; font-weight: 600; color: #333; margin-bottom: 10px; }
-    textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; min-height: 100px; }
-    textarea:focus { outline: none; border-color: #6366f1; background-color: #f8f6ff; }
-    button { width: 100%; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-    button:hover { background: #4f46e5; }
-    button:disabled { opacity: 0.5; }
-    .chat { margin-top: 25px; background: #faf8f5; border: 1px solid #ddd; border-radius: 6px; padding: 15px; min-height: 300px; max-height: 450px; overflow-y: auto; }
-    .message { margin-bottom: 12px; padding: 10px 12px; border-radius: 5px; font-size: 13px; }
-    .user-msg { background: #6366f1; color: white; text-align: right; margin-left: 25%; }
-    .bot-msg { background: #ede9e1; color: #333; margin-right: 25%; border-left: 3px solid #6366f1; }
-    .loading { text-align: center; color: #999; display: none; }
-    .loading.show { display: block; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: radial-gradient(circle at top left, #1d4ed8 0, transparent 50%),
+        radial-gradient(circle at bottom right, #6d28d9 0, transparent 50%),
+        #020617;
+      color: #e5e7eb;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 960px;
+      height: 80vh;
+      background: #020617;
+      border-radius: 18px;
+      border: 1px solid #1e293b;
+      box-shadow: 0 25px 80px rgba(15, 23, 42, 0.9);
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    /* Left panel: branding / context */
+    .sidebar {
+      padding: 22px 20px;
+      background: radial-gradient(circle at top, #1d4ed8 0, transparent 55%);
+      border-right: 1px solid #1e293b;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5e7eb;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+    }
+
+    .sidebar h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .sidebar h1 span {
+      color: #c4b5fd;
+    }
+
+    .sidebar p {
+      font-size: 0.86rem;
+      color: #d1d5db;
+    }
+
+    .sidebar-list {
+      margin-top: 14px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: #cbd5f5;
+    }
+
+    .sidebar-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .sidebar-list li::before {
+      content: "•";
+      color: #a5b4fc;
+      font-size: 1rem;
+      line-height: 1.1;
+    }
+
+    .sidebar-footer {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .sidebar-footer span {
+      color: #a5b4fc;
+    }
+
+    /* Right panel: chat */
+    .chat-pane {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #020617;
+      background: radial-gradient(circle at top right, #1f2937 0, #020617 60%);
+    }
+
+    .chat-header {
+      padding: 16px 18px 10px;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .chat-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chat-header-title h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-header-title h2 span {
+      font-size: 1.3rem;
+    }
+
+    .chat-header-title p {
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    .chat-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    .chat-prompts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .prompt-chip {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: rgba(15, 23, 42, 0.8);
+      font-size: 0.75rem;
+      color: #d1d5db;
+      cursor: pointer;
+      transition: background 0.1s ease, border-color 0.1s ease, transform 0.06s ease;
+    }
+
+    .prompt-chip:hover {
+      background: #111827;
+      border-color: #4b5563;
+      transform: translateY(-1px);
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 14px 16px 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chat-box::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-box::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-box::-webkit-scrollbar-thumb {
+      background: #1f2937;
+      border-radius: 999px;
+    }
+
+    .message-row {
+      display: flex;
+      width: 100%;
+    }
+
+    .message-row.user {
+      justify-content: flex-end;
+    }
+
+    .message-row.bot {
+      justify-content: flex-start;
+    }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      margin-right: 6px;
+      flex-shrink: 0;
+      color: #e5e7eb;
+    }
+
+    .message-bubble {
+      max-width: 78%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .message-bubble.user {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #f9fafb;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message-bubble.bot {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #1f2937;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-meta {
+      font-size: 0.7rem;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .thinking {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .thinking-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #9ca3af;
+      animation: pulse 0.9s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(0.9);
+        opacity: 0.5;
+      }
+      to {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+
+    .chat-input-area {
+      padding: 10px 14px 12px;
+      border-top: 1px solid #1f2937;
+      background: rgba(2, 6, 23, 0.96);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chat-input-area textarea {
+      flex: 1;
+      resize: none;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      outline: none;
+      font-size: 0.9rem;
+      max-height: 90px;
+      min-height: 44px;
+      line-height: 1.4;
+    }
+
+    .chat-input-area textarea::placeholder {
+      color: #6b7280;
+    }
+
+    .chat-input-area textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.6);
+    }
+
+    .send-button {
+      padding: 0 18px;
+      height: 44px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #f9fafb;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.1s ease;
+      flex-shrink: 0;
+    }
+
+    .send-button span {
+      font-size: 1.05rem;
+    }
+
+    .send-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.6);
+    }
+
+    .send-button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .send-button:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .input-hint {
+      font-size: 0.72rem;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shortcuts {
+      display: flex;
+      gap: 8px;
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+
+    .shortcut-key {
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #374151;
+      background: #020617;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    @media (max-width: 800px) {
+      .app-shell {
+        grid-template-columns: minmax(0, 1fr);
+        height: 100vh;
+      }
+
+      .sidebar {
+        display: none;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🏛️ Policy & Rumour Detective</h1>
-      <p>Verify Delhi government schemes, policies & common misconceptions</p>
-    </div>
-    <div class="content">
-      <div>
-        <label>Ask your question:</label>
-        <textarea id="question" placeholder="Ask me anything about Delhi..."></textarea>
-        <button onclick="send()">Send Question</button>
-        <div id="loading" class="loading">Thinking...</div>
-      </div>
-      <div id="chat" class="chat">
-        <div class="message bot-msg">
-          Hello! I'm here to help you understand Delhi government policies and check facts on common rumors. What would you like to know?
+  <div class="app-shell">
+    <!-- LEFT PANEL -->
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          Delhi Governance AI
         </div>
+        <h1>
+          🏛️ Policy &amp; <span>Rumour</span> Detective
+        </h1>
+        <p>
+          Ask about Delhi government schemes, benefits and claims you see on
+          social media. Get structured, explainable answers instead of random forwards.
+        </p>
+
+        <ul class="sidebar-list">
+          <li>Check if a viral rumour about a scheme is likely to be misleading.</li>
+          <li>Understand eligibility in simple language before applying.</li>
+          <li>Compare what a rumour says vs what official policy usually looks like.</li>
+        </ul>
       </div>
-    </div>
+
+      <div class="sidebar-footer">
+        Built for <span>Hack4Delhi</span> · Uses Gemini 2.5 Flash for reasoning.
+      </div>
+    </aside>
+
+    <!-- RIGHT PANEL -->
+    <main class="chat-pane">
+      <header class="chat-header">
+        <div class="chat-header-top">
+          <div class="chat-header-title">
+            <h2>
+              <span>💬</span>
+              Ask your question
+            </h2>
+            <p>Describe the post, rumour or policy you want to verify.</p>
+          </div>
+          <div class="chat-status">
+            <span class="status-dot"></span>
+            Online · Responding in a few seconds
+          </div>
+        </div>
+
+        <div class="chat-prompts">
+          <button class="prompt-chip" type="button">
+            Is the free bus scheme still active for women?
+          </button>
+          <button class="prompt-chip" type="button">
+            A WhatsApp says new ration card rules — is that true?
+          </button>
+          <button class="prompt-chip" type="button">
+            Explain Mukhyamantri Kirayedar Bijli Yojana in simple terms.
+          </button>
+        </div>
+      </header>
+
+      <section id="chat-box" class="chat-box">
+        <div class="message-row bot">
+          <div class="avatar">AI</div>
+          <div>
+            <div class="message-bubble bot">
+              Namaste! I help you understand Delhi government schemes and
+              separate policy facts from rumours. Paste a forward or describe a post,
+              and you will get a clear explanation instead of confusion.
+            </div>
+            <div class="message-meta">Assistant · Delhi policy explainer</div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="chat-input-area">
+        <div class="input-row">
+          <textarea
+            id="question-input"
+            placeholder="Type your question about a scheme, benefit or rumour here..."
+          ></textarea>
+          <button id="send-button" class="send-button" type="button">
+            <span>➤</span>
+            Ask
+          </button>
+        </div>
+        <div class="input-hint">
+          <div class="shortcuts">
+            <span>Press</span>
+            <span class="shortcut-key">Enter</span>
+            <span>to send ·</span>
+            <span class="shortcut-key">Shift</span>
+            <span>+ Enter to add a new line</span>
+          </div>
+        </div>
+      </footer>
+    </main>
   </div>
 
   <script>
-    function send() {
-      const q = document.getElementById('question').value.trim();
-      if (!q) return;
-      
-      let userMsg = document.createElement('div');
-      userMsg.className = 'message user-msg';
-      userMsg.textContent = q;
-      document.getElementById('chat').appendChild(userMsg);
-      document.getElementById('question').value = '';
-      document.querySelector('button').disabled = true;
-      document.getElementById('loading').classList.add('show');
-      
-      fetch('https://hack4delhi-backend.onrender.com/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({question: q})
-      })
-      .then(r => r.json())
-      .then(d => show(d.answer || 'No response'))
-      .catch(e => show('Server error. Please try again.'));
-    }
-    
-    function show(text) {
-      let botMsg = document.createElement('div');
-      botMsg.className = 'message bot-msg';
-      botMsg.textContent = text;
-      document.getElementById('chat').appendChild(botMsg);
-      document.getElementById('loading').classList.remove('show');
-      document.querySelector('button').disabled = false;
-    }
-    
-    document.getElementById('question').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        send();
+    const chatBox = document.getElementById("chat-box");
+    const input = document.getElementById("question-input");
+    const sendButton = document.getElementById("send-button");
+    const promptChips = document.querySelectorAll(".prompt-chip");
+
+    function addMessage(text, sender = "bot") {
+      const row = document.createElement("div");
+      row.classList.add("message-row", sender);
+
+      if (sender === "bot") {
+        const avatar = document.createElement("div");
+        avatar.classList.add("avatar");
+        avatar.textContent = "AI";
+        row.appendChild(avatar);
       }
+
+      const wrapper = document.createElement("div");
+
+      const bubble = document.createElement("div");
+      bubble.classList.add("message-bubble", sender);
+      bubble.textContent = text;
+
+      wrapper.appendChild(bubble);
+
+      const meta = document.createElement("div");
+      meta.classList.add("message-meta");
+      const label = sender === "user" ? "You" : "Assistant";
+      const time = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      meta.textContent = `${label} · ${time}`;
+      wrapper.appendChild(meta);
+
+      row.appendChild(wrapper);
+      chatBox.appendChild(row);
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function addThinking() {
+      const row = document.createElement("div");
+      row.classList.add("message-row", "bot");
+
+      const avatar = document.createElement("div");
+      avatar.classList.add("avatar");
+      avatar.textContent = "AI";
+      row.appendChild(avatar);
+
+      const wrapper = document.createElement("div");
+      const thinking = document.createElement("div");
+      thinking.classList.add("message-bubble", "bot");
+
+      const inner = document.createElement("div");
+      inner.classList.add("thinking");
+      inner.innerHTML =
+        '<span class="thinking-dot"></span><span>Thinking about your question…</span>';
+
+      thinking.appendChild(inner);
+      wrapper.appendChild(thinking);
+      row.appendChild(wrapper);
+
+      chatBox.appendChild(row);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      return row;
+    }
+
+    async function sendMessage(question) {
+      if (!question.trim()) return;
+
+      addMessage(question, "user");
+      input.value = "";
+      input.style.height = "44px";
+      input.focus();
+      sendButton.disabled = true;
+
+      const thinkingRow = addThinking();
+
+      try {
+        const response = await fetch(
+          "https://hack4delhi-backend.onrender.com/api/chat",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Server error");
+        }
+
+        const data = await response.json();
+        chatBox.removeChild(thinkingRow);
+        addMessage(data.answer || "No response received.", "bot");
+      } catch (err) {
+        console.error(err);
+        chatBox.removeChild(thinkingRow);
+        addMessage("Server error. Please try again.", "bot");
+      } finally {
+        sendButton.disabled = false;
+      }
+    }
+
+    sendButton.addEventListener("click", () => {
+      sendMessage(input.value);
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage(input.value);
+      }
+    });
+
+    input.addEventListener("input", () => {
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 90) + "px";
+    });
+
+    promptChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const text = chip.textContent.trim();
+        sendMessage(text);
+      });
     });
   </script>
 </body>
