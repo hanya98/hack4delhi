@@ -1,0 +1,97 @@
+/* --- Voice Assistant Button --- */
+.voice-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    background: #2563eb; /* Professional Blue */
+    border: 4px solid white;
+    border-radius: 50%;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.voice-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Listening Animation */
+.voice-btn.listening {
+    background: #ef4444; /* Red when listening */
+    animation: voice-pulse 1.5s infinite;
+}
+
+@keyframes voice-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { transform: scale(1.2); box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* --- Dark Spotlight Overlay --- */
+#voice-overlay {
+    display: none;
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    min-height: 100vh;
+    z-index: 9000;
+    pointer-events: none; /* Allows clicking through to the button below */
+}
+
+.highlight-ring {
+    position: absolute;
+    border: 4px solid #3b82f6;
+    border-radius: 16px;
+    /* This creates the dark background across the whole screen */
+    box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.85); 
+    z-index: 9001;
+    transition: all 0.4s ease-in-out;
+}
+
+/* --- Instruction Indicator Bubble --- */
+.voice-indicator {
+    position: absolute;
+    background: #3b82f6;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    z-index: 9002;
+    pointer-events: auto;
+    animation: floatUp 0.5s ease-out;
+}
+
+/* Little arrow on top of the bubble */
+.voice-indicator::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #3b82f6;
+}
+
+@keyframes floatUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glass effect for the ring in Dark Mode */
+.dark .highlight-ring {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.9);
+}

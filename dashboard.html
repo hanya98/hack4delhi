@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Citizen Dashboard </title>
+<title>Citizen Dashboard | e-District Plus</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="jansetu-assistant.css">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
 body { display:flex; min-height:100vh; background:#f0f2f5; }
@@ -120,7 +121,7 @@ body { display:flex; min-height:100vh; background:#f0f2f5; }
         <div class="tile-grid">
           <a href="complaint.html" class="tile" id="tileNew"><i>📝</i><span>New Complaint</span></a>
           <a href="user.html#awareness" class="tile" id="tileCanteen"><i>🍱</i><span>Atal Canteen</span></a>
-          <a href="#" class="tile" id="tileCommunity"><i>📜</i><span>Community</span></a>
+          <a href="community.html" class="tile" id="tileCommunity"><i>📜</i><span>Community</span></a>
           <a href="user.html#awareness" class="tile" id="tileBus"><i>🚍</i><span>DEVI Bus</span></a>
         </div>
       </div>
@@ -138,6 +139,9 @@ body { display:flex; min-height:100vh; background:#f0f2f5; }
     </div>
   </div>
 </div>
+
+<div id="voice-overlay"></div>
+<button class="voice-btn" id="voiceBtn" onclick="startListening()">🎤</button>
 
 <script>
 let lang="en";
@@ -208,6 +212,6 @@ function toggleLang(){
   document.getElementById("alerts").innerHTML=t.alerts.replace(/\n/g,"<br>");
 }
 </script>
-
+<script src="jansetu-assistant.js"></script>
 </body>
 </html>
