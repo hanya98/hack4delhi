@@ -29,14 +29,18 @@ body{
   text-align:center;
 }
 
-.container h1{
+.brand { display:flex; align-items:center; gap:14px; justify-content:center; margin-bottom:6px; }
+  .logo { width:56px; height:56px; object-fit:cover; border-radius:10px; }
+  .container h1{
   color:#1c4966;
   margin-bottom:10px;
+  font-size:28px;
 }
 .container p{
   color:#555;
   margin-bottom:30px;
-}
+}  
+@media (max-width:480px){ .logo{ width:40px; height:40px; } }
 
 /* Cards */
 .cards{
@@ -83,7 +87,10 @@ body{
 <body>
 
 <div class="container">
-  <h1>JanSetu</h1>
+  <div class="brand">
+    <img src="logo.jpeg" alt="JanSetu logo" class="logo">
+    <h1>JanSetu</h1>
+  </div>
   <p>Select your role to continue</p>
 
   <div class="cards">
@@ -96,7 +103,7 @@ body{
     <div class="card" onclick="goPolicy()">
       <div class="icon">🏛️</div>
       <h3>Policymaker</h3>
-      <p>View analytics,track employees, monitor governance performance, and access decision dashboards</p>
+      <p>View analytics, monitor governance performance, and access decision dashboards</p>
     </div>
   </div>
 
@@ -115,5 +122,4 @@ function goPolicy(){
 </script>
 
 </body>
-
 </html>
