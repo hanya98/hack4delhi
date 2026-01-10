@@ -1,4 +1,3 @@
-// 1. INITIALIZE SPEECH ENGINE
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 recognition.lang = 'en-IN';
@@ -7,7 +6,6 @@ recognition.interimResults = false;
 const voiceBtn = document.getElementById('voiceBtn');
 const voiceOverlay = document.getElementById('voice-overlay');
 
-// 2. START LISTENING
 function startListening() {
     try {
         recognition.start();
@@ -30,16 +28,13 @@ recognition.onerror = () => {
     console.error("Speech recognition error.");
 };
 
-// 3. COMMAND LOGIC (Context-Aware)
 function handleVoiceCommand(cmd) {
     let targetId = null;
     let instruction = "";
 
-    // Check if we are on the Policymaker Dashboard
     const isPolicymaker = document.getElementById('btn-overview') !== null;
 
     if (isPolicymaker) {
-        // --- POLICYMAKER DASHBOARD COMMANDS ---
         if (cmd.includes("overview") || cmd.includes("main")) {
             showPage('overview');
             targetId = "btn-overview";
@@ -67,7 +62,6 @@ function handleVoiceCommand(cmd) {
         }
     } 
     else {
-        // --- USER DASHBOARD COMMANDS ---
         if (cmd.includes("bus") || cmd.includes("travel") || cmd.includes("devi")) {
             targetId = "tileBus";
             instruction = "Check DEVI Bus routes and timings here.";
@@ -95,7 +89,6 @@ function handleVoiceCommand(cmd) {
         }
     }
 
-    // --- GLOBAL COMMANDS ---
     if (cmd.includes("dark mode") || cmd.includes("theme") || cmd.includes("night")) {
         toggleDarkMode();
         instruction = "Toggled dashboard theme.";
@@ -112,7 +105,6 @@ function handleVoiceCommand(cmd) {
     }
 }
 
-// 4. VISUAL SPOTLIGHT EFFECT
 function showSpotlight(id, text) {
     const el = document.getElementById(id);
     const rect = el.getBoundingClientRect();
@@ -135,20 +127,17 @@ function showSpotlight(id, text) {
         </div>
     `;
 
-    // Auto-hide after 6 seconds
     setTimeout(() => {
         voiceOverlay.style.display = 'none';
     }, 6000);
 }
 
-// 5. TEXT TO SPEECH
 function speak(text) {
     const msg = new SpeechSynthesisUtterance(text);
-    msg.rate = 0.9; // Slightly slower for clarity
+    msg.rate = 0.9;
     window.speechSynthesis.speak(msg);
 }
 
-// Hide overlay if user scrolls
 window.onscroll = () => { 
     if(voiceOverlay) voiceOverlay.style.display = 'none'; 
 };
