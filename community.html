@@ -5,73 +5,84 @@
 <title>Community Forum | JanSetu</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-    /* --- CORE STYLES --- */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
-    body { display:flex; min-height:100vh; background:#f0f2f5; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
+body { display:flex; min-height:100vh; background:#f0f2f5; }
 
-    /* Sidebar */
-    .sidebar { width:260px; background:#1a3a5a; color:#fff; padding:25px 15px; position: fixed; height: 100vh; z-index: 100;}
-    .sidebar h2 { text-align:center; margin-bottom:40px; font-size: 20px; color: #ecf0f1; border-bottom: 1px solid #2c527a; padding-bottom:15px;}
-    .nav-group { margin-bottom: 25px; }
-    .nav-label { font-size: 11px; text-transform: uppercase; color: #8ba3b8; margin-left: 10px; margin-bottom: 10px; display: block; }
-    .nav-item { padding:12px 15px; margin-bottom:5px; border-radius:8px; cursor:pointer; display: block; text-decoration: none; color: white; font-size: 14px; transition: 0.2s;}
-    .nav-item:hover { background:#2c527a; }
-    .active-nav { background:#2c527a; border-left: 4px solid #3498db; }
+.lang-toggle{
+  position:fixed;
+  top:15px;
+  right:20px;
+  padding:6px 14px;
+  border-radius:20px;
+  border:1px solid #ccc;
+  background:#fff;
+  cursor:pointer;
+  font-size:13px;
+  z-index:200;
+}
 
-    /* Main Content */
-    .main { flex:1; margin-left: 260px; padding:30px; max-width: 900px;}
-    .forum-header { margin-bottom: 25px; }
+.sidebar { width:260px; background:#1a3a5a; color:#fff; padding:25px 15px; position: fixed; height: 100vh;}
+.sidebar h2 { text-align:center; margin-bottom:40px; font-size:20px; border-bottom:1px solid #2c527a; padding-bottom:15px;}
+.nav-group { margin-bottom:25px; }
+.nav-label { font-size:11px; text-transform:uppercase; color:#8ba3b8; margin-left:10px; margin-bottom:10px; display:block; }
+.nav-item { padding:12px 15px; margin-bottom:5px; border-radius:8px; display:block; text-decoration:none; color:white; font-size:14px;}
+.nav-item:hover { background:#2c527a; }
+.active-nav { background:#2c527a; border-left:4px solid #3498db; }
 
-    /* Post Creation */
-    .create-post { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #e0e6ed;}
-    .create-post textarea { width: 100%; padding: 15px; border: 1px solid #eee; border-radius: 8px; resize: none; height: 80px; margin-bottom: 15px; background: #f9f9f9; font-size: 14px; outline: none;}
-    .post-actions { display: flex; justify-content: space-between; align-items: center; }
-    .btn-post { background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-    .btn-post:hover { background: #2980b9; transform: translateY(-1px); }
+.main { flex:1; margin-left:260px; padding:30px; max-width:900px;}
+.forum-header { margin-bottom:25px; }
 
-    /* Forum Feed */
-    .forum-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; position: relative; border: 1px solid #fff;}
-    .user-info { display: flex; align-items: center; margin-bottom: 12px; }
-    .avatar { width: 40px; height: 40px; background: #1a3a5a; border-radius: 50%; margin-right: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; }
-    .user-meta h4 { font-size: 14px; color: #2c3e50; display: flex; align-items: center; gap: 5px; }
-    .user-meta span { font-size: 11px; color: #999; }
-    .district-badge { position: absolute; top: 20px; right: 20px; background: #ebf5ff; color: #3498db; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; }
-    
-    .post-content { font-size: 15px; color: #444; line-height: 1.6; margin-bottom: 15px; }
-    .engagement { display: flex; gap: 20px; border-top: 1px solid #f0f0f0; padding-top: 12px; }
-    .eng-btn { background: none; border: none; color: #7f8c8d; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 4px; }
-    .eng-btn:hover { background: #f8f9fa; }
-    .upvoted { color: #3498db !important; font-weight: bold; }
+.create-post { background:white; padding:20px; border-radius:12px; margin-bottom:25px; }
+.create-post textarea { width:100%; padding:15px; border:1px solid #eee; border-radius:8px; resize:none; height:80px; margin-bottom:15px; }
+
+.post-actions { display:flex; justify-content:space-between; align-items:center; }
+.btn-post { background:#3498db; color:white; border:none; padding:10px 25px; border-radius:6px; cursor:pointer; font-weight:600; }
+
+.forum-card { background:white; padding:20px; border-radius:12px; margin-bottom:15px; position:relative; }
+.user-info { display:flex; align-items:center; margin-bottom:12px; }
+.avatar { width:40px; height:40px; background:#1a3a5a; border-radius:50%; margin-right:12px; display:flex; align-items:center; justify-content:center; color:white; }
+.user-meta h4 { font-size:14px; }
+.user-meta span { font-size:11px; color:#999; }
+
+.district-badge { position:absolute; top:20px; right:20px; background:#ebf5ff; color:#3498db; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:bold; }
+
+.post-content { font-size:15px; color:#444; margin-bottom:15px; }
+.engagement { display:flex; gap:20px; border-top:1px solid #eee; padding-top:12px; }
+.eng-btn { background:none; border:none; cursor:pointer; font-size:13px; color:#7f8c8d; }
+.upvoted { color:#3498db; font-weight:bold; }
 </style>
 </head>
+
 <body>
 
+<button class="lang-toggle" onclick="toggleLang()">EN | हिंदी</button>
+
 <div class="sidebar">
-  <h2>JanSetu</h2>
+  <h2 id="sidebarTitle">JanSetu</h2>
   <div class="nav-group">
-    <span class="nav-label">Main Hub</span>
-    <a href="dashboard.html" class="nav-item">🏠 Dashboard</a>
-    <a href="user.html#awareness" class="nav-item">📢 Awareness Hub</a>
+    <span class="nav-label" id="navMain">Main Hub</span>
+    <a href="dashboard.html" class="nav-item" id="navDash">🏠 Dashboard</a>
+    <a href="user.html#awareness" class="nav-item" id="navAware">📢 Awareness Hub</a>
   </div>
   <div class="nav-group">
-    <span class="nav-label">Citizen Services</span>
-     <a href="rumours.html" class="nav-item"><span>🛡️ Rumour Verifier</span></a>
-    <a href="complaint.html" class="nav-item">📝 Raise Complaint</a>
-    <a href="my_complaints.html" class="nav-item">📋 My Complaints</a>
-    <a href="community.html" class="nav-item active-nav">🏘️ Community Forum</a>
+    <span class="nav-label" id="navCitizen">Citizen Services</span>
+    <a href="rumours.html" class="nav-item" id="navRumour">🛡️ Rumour Verifier</a>
+    <a href="complaint.html" class="nav-item" id="navComplaint">📝 Raise Complaint</a>
+    <a href="my_complaints.html" class="nav-item" id="navMyComplaint">📋 My Complaints</a>
+    <a href="community.html" class="nav-item active-nav" id="navCommunity">🏘️ Community Forum</a>
   </div>
 </div>
 
 <div class="main">
   <div class="forum-header">
-    <h3>Community Forum</h3>
-    <p style="color: #666; font-size: 14px;">Connect with your neighbors and share local updates.</p>
+    <h3 id="forumTitle">Community Forum</h3>
+    <p id="forumDesc" style="color:#666;font-size:14px;">Connect with your neighbors and share local updates.</p>
   </div>
 
   <div class="create-post">
     <textarea id="postText" placeholder="Share something with your community..."></textarea>
     <div class="post-actions">
-        <select id="postDistrict" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+        <select id="postDistrict">
             <option value="">Select District</option>
             <option>Old Delhi</option>
             <option>Central North</option>
@@ -79,27 +90,74 @@
             <option>West Delhi</option>
             <option>East Delhi</option>
         </select>
-        <button class="btn-post" onclick="addPost()">Post Update</button>
+        <button class="btn-post" id="postBtn" onclick="addPost()">Post Update</button>
     </div>
   </div>
 
-  <div id="forumFeed">
-    </div>
+  <div id="forumFeed"></div>
 </div>
 
 <script>
-window.onload = function() {
-    loadForum();
+let lang = "en";
+
+const langText = {
+  en:{
+    sidebarTitle:"JanSetu",
+    navMain:"Main Hub",
+    navDash:"🏠 Dashboard",
+    navAware:"📢 Awareness Hub",
+    navCitizen:"Citizen Services",
+    navRumour:"🛡️ Rumour Verifier",
+    navComplaint:"📝 Raise Complaint",
+    navMyComplaint:"📋 My Complaints",
+    navCommunity:"🏘️ Community Forum",
+    forumTitle:"Community Forum",
+    forumDesc:"Connect with your neighbors and share local updates.",
+    postPlaceholder:"Share something with your community...",
+    postBtn:"Post Update"
+  },
+  hi:{
+    sidebarTitle:"जनसेतु",
+    navMain:"मुख्य केंद्र",
+    navDash:"🏠 डैशबोर्ड",
+    navAware:"📢 जागरूकता केंद्र",
+    navCitizen:"नागरिक सेवाएँ",
+    navRumour:"🛡️ अफवाह सत्यापन",
+    navComplaint:"📝 शिकायत दर्ज करें",
+    navMyComplaint:"📋 मेरी शिकायतें",
+    navCommunity:"🏘️ सामुदायिक मंच",
+    forumTitle:"सामुदायिक मंच",
+    forumDesc:"अपने पड़ोसियों से जुड़ें और स्थानीय अपडेट साझा करें।",
+    postPlaceholder:"अपने समुदाय के साथ कुछ साझा करें...",
+    postBtn:"पोस्ट करें"
+  }
+};
+
+function toggleLang(){
+  lang = lang === "en" ? "hi" : "en";
+
+  document.getElementById("sidebarTitle").textContent = langText[lang].sidebarTitle;
+  document.getElementById("navMain").textContent = langText[lang].navMain;
+  document.getElementById("navDash").textContent = langText[lang].navDash;
+  document.getElementById("navAware").textContent = langText[lang].navAware;
+  document.getElementById("navCitizen").textContent = langText[lang].navCitizen;
+  document.getElementById("navRumour").textContent = langText[lang].navRumour;
+  document.getElementById("navComplaint").textContent = langText[lang].navComplaint;
+  document.getElementById("navMyComplaint").textContent = langText[lang].navMyComplaint;
+  document.getElementById("navCommunity").textContent = langText[lang].navCommunity;
+
+  document.getElementById("forumTitle").textContent = langText[lang].forumTitle;
+  document.getElementById("forumDesc").textContent = langText[lang].forumDesc;
+  document.getElementById("postText").placeholder = langText[lang].postPlaceholder;
+  document.getElementById("postBtn").textContent = langText[lang].postBtn;
 }
+
+window.onload = function() { loadForum(); }
 
 function addPost() {
     const text = document.getElementById('postText').value;
     const dist = document.getElementById('postDistrict').value;
-
-    if(!text || !dist) {
-        alert("Please fill in the post content and select a district.");
-        return;
-    }
+    if(!text || !dist){ alert("Please fill in the post content and select a district."); return; }
 
     const newPost = {
         id: "post_" + Date.now(),
@@ -115,7 +173,6 @@ function addPost() {
     let userPosts = JSON.parse(localStorage.getItem('forumPosts')) || [];
     userPosts.unshift(newPost);
     localStorage.setItem('forumPosts', JSON.stringify(userPosts));
-
     document.getElementById('postText').value = "";
     document.getElementById('postDistrict').value = "";
     loadForum();
@@ -124,91 +181,52 @@ function addPost() {
 function toggleUpvote(postId) {
     let userPosts = JSON.parse(localStorage.getItem('forumPosts')) || [];
     const postIndex = userPosts.findIndex(p => p.id === postId);
-    
-    if (postIndex !== -1) {
-        if (!userPosts[postIndex].voted) {
-            userPosts[postIndex].upvotes += 1;
-            userPosts[postIndex].voted = true;
-        } else {
-            userPosts[postIndex].upvotes -= 1;
-            userPosts[postIndex].voted = false;
-        }
+    if(postIndex!==-1){
+        if(!userPosts[postIndex].voted){ userPosts[postIndex].upvotes+=1; userPosts[postIndex].voted=true; }
+        else{ userPosts[postIndex].upvotes-=1; userPosts[postIndex].voted=false; }
         localStorage.setItem('forumPosts', JSON.stringify(userPosts));
         loadForum();
     }
 }
 
-function deletePost(postId) {
-    if(confirm("Are you sure you want to delete this post?")) {
+function deletePost(postId){
+    if(confirm("Are you sure you want to delete this post?")){
         let userPosts = JSON.parse(localStorage.getItem('forumPosts')) || [];
-        userPosts = userPosts.filter(p => p.id !== postId);
+        userPosts = userPosts.filter(p => p.id!==postId);
         localStorage.setItem('forumPosts', JSON.stringify(userPosts));
         loadForum();
     }
 }
 
-function loadForum() {
+function loadForum(){
     const feed = document.getElementById('forumFeed');
     const userPosts = JSON.parse(localStorage.getItem('forumPosts')) || [];
-    
-    // Sample Posts Array
     const samples = [
-        {
-            id: "s1",
-            user: "JanSetu Admin",
-            text: "Important: The PWD has scheduled road maintenance on the Main Mall Road tonight from 11 PM to 4 AM. Please plan your travel accordingly.",
-            district: "Official",
-            time: "Yesterday",
-            upvotes: 104,
-            isOfficial: true
-        },
-        {
-            id: "s2",
-            user: "Amit Sharma",
-            text: "The new community library in South Delhi is finally open! Great space for students. Check it out.",
-            district: "South Delhi",
-            time: "4 hours ago",
-            upvotes: 56
-        },
-        {
-            id: "s3",
-            user: "Meera Kaur",
-            text: "Frequent power cuts in the North block for the last 2 days. Has anyone lodged a collective complaint with BSES yet?",
-            district: "Central North",
-            time: "2 hours ago",
-            upvotes: 21
-        },
-        {
-            id: "s4",
-            user: "Rohit Kumar",
-            text: "Requesting the horticulture department to trim the overgrown trees near the Sector 9 bus stop. They are blocking the street lights.",
-            district: "West Delhi",
-            time: "7 hours ago",
-            upvotes: 38
-        }
+        {id:"s1", user:"JanSetu Admin", text:"Important: The PWD has scheduled road maintenance tonight from 11 PM to 4 AM.", district:"Official", time:"Yesterday", upvotes:104, isOfficial:true},
+        {id:"s2", user:"Amit Sharma", text:"The new community library in South Delhi is finally open! Great space for students.", district:"South Delhi", time:"4 hours ago", upvotes:56},
+        {id:"s3", user:"Meera Kaur", text:"Frequent power cuts in the North block for the last 2 days.", district:"Central North", time:"2 hours ago", upvotes:21},
+        {id:"s4", user:"Rohit Kumar", text:"Requesting the horticulture department to trim overgrown trees near Sector 9 bus stop.", district:"West Delhi", time:"7 hours ago", upvotes:38}
     ];
 
     const allPosts = [...userPosts, ...samples];
 
-    feed.innerHTML = allPosts.map(p => `
-        <div class="forum-card" style="${p.isOfficial ? 'border: 1px solid #3498db; background: #f8fbff;' : ''}">
-            <span class="district-badge" style="${p.isOfficial ? 'background:#3498db; color:white;' : ''}">${p.district}</span>
+    feed.innerHTML = allPosts.map(p=>`
+        <div class="forum-card" style="${p.isOfficial?'border:1px solid #3498db; background:#f8fbff;':''}">
+            <span class="district-badge" style="${p.isOfficial?'background:#3498db;color:white;':''}">${p.district}</span>
             <div class="user-info">
-                <div class="avatar" style="${p.isOfficial ? 'background:#3498db;' : ''}">${p.user.charAt(0)}</div>
+                <div class="avatar" style="${p.isOfficial?'background:#3498db;':''}">${p.user.charAt(0)}</div>
                 <div class="user-meta">
-                    <h4>${p.user} ${p.isOfficial ? '<span title="Verified">✅</span>' : ''}</h4>
+                    <h4>${p.user}${p.isOfficial?'<span title="Verified">✅</span>':''}</h4>
                     <span>${p.time}</span>
                 </div>
             </div>
             <p class="post-content">${p.text}</p>
             <div class="engagement">
-                <button class="eng-btn ${p.voted ? 'upvoted' : ''}" 
-                        onclick="${p.isOfficial ? '' : `toggleUpvote('${p.id}')`}" 
-                        ${p.isOfficial ? 'style="cursor:default"' : ''}>
-                    ▲ ${p.voted ? 'Upvoted' : 'Upvote'} (${p.upvotes})
+                <button class="eng-btn ${p.voted?'upvoted':''}" onclick="${p.isOfficial?'':`toggleUpvote('${p.id}')`}" ${p.isOfficial?'style="cursor:default"':''}>
+                    ▲ ${p.voted?'Upvoted':'Upvote'} (${p.upvotes})
                 </button>
                 <button class="eng-btn">💬 Comments</button>
-                ${p.isUserPost ? `<button class="eng-btn" onclick="deletePost('${p.id}')" style="margin-left:auto; color:#e74c3c">Delete</button>` : ''}
+                ${p.isUserPost?`<button class="eng-btn" onclick="deletePost('${p.id}')" style="margin-left:auto;color:#e74c3c">Delete</button>`:''}
             </div>
         </div>
     `).join('');
