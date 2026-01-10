@@ -227,7 +227,7 @@ We welcome contributions to JanSetu! If you have suggestions for improvements or
 
 ## 📞 Support & Contact
 
--   📧 Email: 
+-   📧 Email: hanyabatra@gmail.com
 -   🐛 Issues: [GitHub Issues](https://github.com/hanya98/JanSetu/issues)
 -   💬 Discussions:
 
