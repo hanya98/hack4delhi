@@ -227,9 +227,9 @@ We welcome contributions to JanSetu! If you have suggestions for improvements or
 
 ## 📞 Support & Contact
 
--   📧 Email: contact@hanya98.com <!-- TODO: Add actual contact email -->
+-   📧 Email: 
 -   🐛 Issues: [GitHub Issues](https://github.com/hanya98/JanSetu/issues)
--   💬 Discussions: <!-- TODO: Add GitHub Discussions link if enabled -->
+-   💬 Discussions:
 
 ---
 
