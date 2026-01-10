@@ -193,6 +193,7 @@ h1{
 let lang = "en";
 let greetIndex = 0;
 let greetTimeout;
+let greetingsPlayed = false;
 
 const greetEl = document.getElementById("greeting");
 
@@ -217,25 +218,30 @@ const content = {
   }
 };
 
-function playGreeting(){
-  if(greetIndex >= content[lang].greetings.length) return;
+function playGreetingOnce(){
+  if(greetingsPlayed) return;
+  greetingsPlayed = true;
 
-  greetEl.textContent = content[lang].greetings[greetIndex];
-  greetEl.style.animation = "none";
-  void greetEl.offsetWidth; // force reflow
-  greetEl.style.animation = "greet 1.5s ease forwards";
+  function run(){
+    if(greetIndex >= content.en.greetings.length) return;
 
-  greetIndex++;
-  greetTimeout = setTimeout(playGreeting, 1200);
+    greetEl.textContent = content.en.greetings[greetIndex];
+    greetEl.style.animation = "none";
+    void greetEl.offsetWidth;
+    greetEl.style.animation = "greet 1.5s ease forwards";
+
+    greetIndex++;
+    greetTimeout = setTimeout(run, 1200);
+  }
+
+  run();
 }
 
-playGreeting();
+// Play greetings ONCE on page load
+playGreetingOnce();
 
 function toggleLang(){
-  clearTimeout(greetTimeout);
   lang = lang === "en" ? "hi" : "en";
-  greetIndex = 0;
-  playGreeting();
 
   document.getElementById("subtitle").textContent = content[lang].subtitle;
   document.getElementById("citizenTitle").textContent = content[lang].citizen;
