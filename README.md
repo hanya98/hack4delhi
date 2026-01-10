@@ -2,14 +2,16 @@
 
 <div align="center">
 
-![JanSetu Logo]("C:\Users\devan\Downloads\WhatsApp Image 2026-01-10 at 10.33.17 PM.jpeg")
+<p align="center">
+  <img src="assets/logo.jpeg" alt="JanSetu Logo" width="150"/>
+</p>
 
 
 
 **PROJECT LINKS**
 
-[Live Demo](https://hanya98.github.io/JanSetu) <!-- TODO: Add live demo link if available -->
-[PPT Link](https://www.canva.com/design/DAG83rtJ7fY/7gVoMR7m93kUCM_VQwpM9w/edit?utm_content=DAG83rtJ7fY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Live Demo](https://hanya98.github.io/JanSetu) &nbsp;&nbsp;&nbsp;
+[PPT Link](https://www.canva.com/design/DAG83rtJ7fY/7gVoMR7m93kUCM_VQwpM9w/edit?utm_content=DAG83rtJ7fY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) &nbsp;&nbsp;&nbsp;
 [Video Link](https://www.canva.com/design/DAG9dLakXXM/bP0D7hTZ2SJtQWsK2A-B5Q/edit?utm_content=DAG9dLakXXM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 </div>
@@ -60,10 +62,27 @@ To establish JanSetu as a national-scale governance intelligence platform that e
 
 ## 🖥️ Screenshots
 
-![Screenshot of Homepage]("C:\Users\devan\OneDrive\Pictures\Screenshots\Screenshot 2026-01-10 224758.png")
-![Screenshot of Citizen Dashboard]("C:\Users\devan\OneDrive\Pictures\Screenshots\Screenshot 2026-01-10 224945.png")
-![Screenshot of Policymaker Dashboard]("C:\Users\devan\OneDrive\Pictures\Screenshots\Screenshot 2026-01-10 225104.png")
-![Screenshot of GeoMint Dashboard]("C:\Users\devan\OneDrive\Pictures\Screenshots\Screenshot 2026-01-10 225151.png")
+<p align="center">
+  <img src="assets/HomePage.png" width="800"/>
+  <br/>
+  <i>Homepage</i>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="assets/ Citizen_Dash.png" width="800"/>
+  <br/>
+  <i>Citizen Dashboard – personalized alerts, complaints, and community engagement</i>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="assets/PolicyMaker_Dash.png" width="800"/>
+  <br/>
+  <i>Policymaker Dashboard – complaint analytics, policy insights, and workforce monitoring</i>
+</p>
 
 ## 🛠️ Tech Stack
 
