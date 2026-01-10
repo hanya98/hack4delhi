@@ -6,55 +6,89 @@
     <title> Rumour Detector</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Segoe UI, Arial, sans-serif; background: #f5ede3; min-height: 100vh; padding: 15px; }
-        .container { max-width: 950px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .header { background: linear-gradient(to right, #a74432, #c41e3a); color: white; padding: 35px 30px; text-align: center; }
-        .header h1 { font-size: 30px; margin-bottom: 8px; }
-        .header p { font-size: 14px; opacity: 0.9; }
-        .content { padding: 30px; }
-        label { display: block; font-weight: 600; color: #333; margin-bottom: 10px; }
-        textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; min-height: 100px; }
-        textarea:focus { outline: none; border-color: #a74432; background-color: #fffbf7; }
-        button { width: 100%; padding: 12px; background: #a74432; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-        button:hover { background: #8a3729; }
-        button:disabled { opacity: 0.5; }
-        .chat { margin-top: 25px; background: #faf8f5; border: 1px solid #ddd; border-radius: 6px; padding: 15px; min-height: 300px; max-height: 450px; overflow-y: auto; }
-        .message { margin-bottom: 12px; padding: 10px 12px; border-radius: 5px; font-size: 13px; }
-        .user-msg { background: #a74432; color: white; text-align: right; margin-left: 25%; }
-        .bot-msg { background: #ede9e1; color: #333; margin-right: 25%; border-left: 3px solid #a74432; }
-        .loading { text-align: center; color: #999; display: none; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(180deg,#fbf8f6 0%, #f5ede3 100%); min-height: 100vh; padding: 18px; color: #222; }
+        .container { max-width: 920px; margin: 0 auto; background: #fff; border-radius: 10px; box-shadow: 0 6px 30px rgba(0,0,0,0.08); overflow: hidden; }
+        .header { background: linear-gradient(90deg, #a74432 0%, #c41e3a 100%); color: white; padding: 28px 24px; text-align: center; position: relative; }
+        .header h1 { font-size: 26px; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.2px; }
+        .header p { font-size: 13px; opacity: 0.95; max-width: 760px; margin: 0 auto; }
+        .back-btn { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.12); border: none; color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .back-btn:hover { background: rgba(255,255,255,0.18); }
+
+        .content { padding: 26px; }
+        label { display: block; font-weight: 600; color: #333; margin-bottom: 8px; }
+        textarea { width: 100%; padding: 14px; border: 1px solid #e6e0d9; border-radius: 8px; min-height: 110px; resize: vertical; font-size: 14px; line-height: 1.4; background: #fff; }
+        textarea:focus { outline: none; border-color: #c41e3a; box-shadow: 0 4px 18px rgba(196,30,58,0.08); }
+
+        .controls { display: flex; gap: 10px; margin-top: 12px; }
+        .btn { padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; font-size: 14px; }
+        .btn.primary { background: #a74432; color: #fff; flex: 1; }
+        .btn.primary:hover { background: #8a3729; }
+        .btn.secondary { background: #f1f0ee; color: #333; border: 1px solid #e3ded9; }
+        .btn.secondary:hover { background: #e9e7e4; }
+        .btn:disabled { opacity: 0.6; cursor: default; }
+
+        .hint { margin-top: 8px; font-size: 12px; color: #666; }
+        .hint kbd { background: #f6f5f4; border-radius: 4px; padding: 2px 6px; border: 1px solid #e6e0d9; font-weight: 700; }
+
+        .loading { text-align: center; color: #8a8a8a; margin-top: 10px; display: none; }
         .loading.show { display: block; }
+
+        .chat { margin-top: 22px; background: #faf8f5; border: 1px solid #efebe7; border-radius: 10px; padding: 14px; min-height: 260px; max-height: 500px; overflow-y: auto; }
+        .message { margin-bottom: 12px; padding: 10px 12px; border-radius: 8px; font-size: 14px; display: inline-block; max-width: 78%; position: relative; }
+        .user-msg { background: #a74432; color: white; text-align: right; float: right; clear: both; }
+        .bot-msg { background: #fff; color: #222; float: left; clear: both; border-left: 3px solid #f0b0a8; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .message .ts { display: block; font-size: 11px; color: rgba(0,0,0,0.45); margin-top: 6px; }
+
+        @media (max-width: 600px){
+            .header h1 { font-size: 20px; }
+            .header p{font-size:12px}
+            .back-btn { left: 10px; }
+            .controls { flex-direction: column; }
+            .user-msg, .bot-msg { max-width: 100%; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <button class="back-btn" onclick="history.back()" aria-label="Go back"><a href="dashboard.html">← Back</a> </button>
             <h1>Rumour Detector</h1>
-            <p>Check facts about Delhi government and policies,verify your forwarded messages and mails.</p>
+            <p>Check facts about Delhi government and policies — verify your forwarded messages and mails.</p>
         </div>
         <div class="content">
-            <div>
-                <label>Ask your question:</label>
-                <textarea id="question" placeholder="Ask me anything about Delhi..."></textarea>
-                <button onclick="send()">Send Question</button>
-                <div id="loading" class="loading">Thinking...</div>
+            <div class="input-area">
+                <label for="question">Ask your question</label>
+                <textarea id="question" placeholder="Ask me anything about Delhi..." rows="4" aria-label="Question"></textarea>
+                <div class="controls">
+                    <button class="btn primary" id="sendBtn" onclick="send()">Send</button>
+                    <button class="btn secondary" id="clearBtn" onclick="clearChat()">Clear</button>
+                </div>
+                <div class="hint">Press <kbd>Enter</kbd> to send, <kbd>Shift</kbd>+<kbd>Enter</kbd> for a new line</div>
+                <div id="loading" class="loading" role="status" aria-live="polite">Thinking...</div>
             </div>
-            <div id="chat" class="chat"></div>
+            <div id="chat" class="chat" role="log" aria-live="polite" aria-atomic="false"></div>
         </div>
     </div>
 
     <script>
+        function escapeHtml(unsafe) {
+            return unsafe.replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m];});
+        }
+
         function send() {
             const q = document.getElementById('question').value.trim();
             if (!q) return;
 
+            const chat = document.getElementById('chat');
             let userMsg = document.createElement('div');
             userMsg.className = 'message user-msg';
-            userMsg.textContent = q;
-            document.getElementById('chat').appendChild(userMsg);
+            userMsg.innerHTML = '<div class="text">'+escapeHtml(q)+'</div><div class="ts">'+new Date().toLocaleTimeString()+'</div>';
+            chat.appendChild(userMsg);
             document.getElementById('question').value = '';
-            document.querySelector('button').disabled = true;
+            document.getElementById('sendBtn').disabled = true;
+            document.getElementById('clearBtn').disabled = true;
             document.getElementById('loading').classList.add('show');
+            chat.scrollTop = chat.scrollHeight;
 
             fetch('https://hack4delhi-backend.onrender.com/api/chat', {
                 method: 'POST',
@@ -67,15 +101,24 @@
         }
 
         function show(text) {
+            const chat = document.getElementById('chat');
             let botMsg = document.createElement('div');
             botMsg.className = 'message bot-msg';
-            botMsg.textContent = text;
-            document.getElementById('chat').appendChild(botMsg);
+            botMsg.innerHTML = '<div class="text">'+escapeHtml(text)+'</div><div class="ts">'+new Date().toLocaleTimeString()+'</div>';
+            chat.appendChild(botMsg);
             document.getElementById('loading').classList.remove('show');
-            document.querySelector('button').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            document.getElementById('clearBtn').disabled = false;
+            chat.scrollTop = chat.scrollHeight;
         }
 
-        document.getElementById('question').addEventListener('keypress', (e) => {
+        function clearChat(){
+            const chat = document.getElementById('chat');
+            chat.innerHTML = '<div class="message bot-msg">Chat cleared. Ask another question.</div>';
+            document.getElementById('question').focus();
+        }
+
+        document.getElementById('question').addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 send();
