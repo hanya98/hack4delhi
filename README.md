@@ -176,11 +176,7 @@ To implement testing, you would typically integrate a testing framework like Jes
 ### Production Build
 To prepare the application for production:
 ```bash
-# Ensure dependencies are installed
-npm install --production
 
-# Start the server
-npm start
 ```
 It is recommended to use a process manager like PM2 or deploy on platforms like Heroku, Vercel (for frontend if separated), or a custom VPS with Nginx for reverse proxying for robust production deployment.
 
@@ -225,17 +221,10 @@ We welcome contributions to JanSetu! If you have suggestions for improvements or
 -   **JSON Web Token**: For secure authentication.
 -   **Nodemon**: For boosting development workflow.
 
-## 📞 Support & Contact
-
--   📧 Email: hanyabatra@gmail.com
--   🐛 Issues: [GitHub Issues](https://github.com/hanya98/JanSetu/issues)
-
----
-
 <div align="center">
 
 **⭐ Star this repo if you find it helpful!**
 
-Made with ❤️ by our team
+Made with ❤️ by SeedtoScale
 
 </div>
